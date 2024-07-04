@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tourism_app/core/widgets/CustomExpantionListTile.dart';
 import 'package:tourism_app/core/widgets/CustomTextField.dart';
 import 'package:tourism_app/core/widgets/ExpantionListRate.dart';
+import 'package:tourism_app/features/Country/presentation/viewModels/CountryCubit/country_cubit.dart';
 
 class RatesCompaniesDialog extends StatelessWidget {
   const RatesCompaniesDialog({
@@ -13,6 +15,7 @@ class RatesCompaniesDialog extends StatelessWidget {
     required this.serviceRateController,
     required this.descriptionController,
     required this.locationController,
+    required this.countryController,
   });
 
   final TextEditingController nameController;
@@ -23,6 +26,7 @@ class RatesCompaniesDialog extends StatelessWidget {
   final TextEditingController comfortRateController;
   final TextEditingController safeRateController;
   final TextEditingController serviceRateController;
+  final TextEditingController countryController;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +40,10 @@ class RatesCompaniesDialog extends StatelessWidget {
           controller: locationController,
           labelText: "Company Location",
         ),
+        CustomExpantionListTile(
+            controller: countryController,
+            list: CountryCubit.bloccountries,
+            label: "Country"),
         CustomTextField(
           controller: descriptionController,
           labelText: "Company Description",

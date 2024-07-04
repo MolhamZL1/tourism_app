@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:tourism_app/core/errors/failure.dart';
@@ -33,13 +34,77 @@ class AirPlaneCompanyrepoImp implements AirPalneCompanyRepo {
   Future<Either<ServerFailure, String>> addAirPlaneCompany(
       {required String name,
       required String location,
-      required String description}) async {
+      required String description,
+      required Uint8List photo,
+      required String rate,
+      required String food,
+      required String service,
+      required String comforts,
+      required String safe,
+      required String country}) async {
     try {
+      FormData formData = FormData.fromMap({
+        "name": name,
+        "location": location,
+        "description": description,
+        "photo": MultipartFile.fromBytes(
+          photo,
+          filename: 'photo.jpg',
+        ),
+        "Rate": rate,
+        "food": food,
+        "service": service,
+        "Comforts": comforts,
+        "safe": safe,
+        "nameOfCountry": country
+      });
       var data = await apiService.post(
-          endPoint: "InputAirPlaneCompany",
-          body: {'name': name, 'Rate': location, 'photo': description});
-
+          endPoint: "InputAirPlaneCompany", body: formData);
       return right(data["message"]);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ServerFailure, String>> updateAirPlaneCompany(
+      {required int id,
+      String? name,
+      String? location,
+      String? description,
+      Uint8List? photo,
+      String? rate,
+      String? food,
+      String? service,
+      String? comforts,
+      String? safe,
+      String? country}) async {
+    try {
+      FormData formData = FormData.fromMap({
+        "idOldName": id,
+        "NewName": name,
+        "NewLocation": location,
+        "description": description,
+        "photo": photo == null
+            ? ""
+            : MultipartFile.fromBytes(
+                photo,
+                filename: 'photo.jpg',
+              ),
+        "Rate": rate,
+        "food": food,
+        "service": service,
+        "Comforts": comforts,
+        "safe": safe,
+        "nameOfCountry": country
+      });
+      var data = await apiService.post(
+          endPoint: "updateAirplaneCompany", body: formData);
+
+      return right("success");
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
@@ -54,30 +119,6 @@ class AirPlaneCompanyrepoImp implements AirPalneCompanyRepo {
     try {
       var data = await apiService
           .post(endPoint: "DropAirplaneCompany", body: {'id': id});
-
-      return right(data["message"]);
-    } catch (e) {
-      if (e is DioException) {
-        return left(ServerFailure.fromDioError(e));
-      }
-      return left(ServerFailure(errMessage: e.toString()));
-    }
-  }
-
-  @override
-  Future<Either<ServerFailure, String>> updateAirPlaneCompany(
-      {required int id,
-      required String name,
-      required String location,
-      required String description}) async {
-    try {
-      var data =
-          await apiService.post(endPoint: "updateAirplaneCompany", body: {
-        'idOldName': id,
-        'NewName': name,
-        'photo': location,
-        'Rate': description,
-      });
 
       return right(data["message"]);
     } catch (e) {

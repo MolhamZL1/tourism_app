@@ -12,6 +12,7 @@ class AdditionContainer extends StatelessWidget {
     return GestureDetector(
       onTap: ontap,
       child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
             border: Border.all(color: Colors.grey)),

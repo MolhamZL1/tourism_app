@@ -20,12 +20,11 @@ class CustomDrawerList extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => GestureDetector(
-        onTap: _handleTap(index),
-        child: CustomDrawerItem(
-          selected: selectedIndex == index,
-          drawerItemModel: destenations[index],
-        ),
-      ),
+          onTap: _handleTap(index),
+          child: CustomDrawerItem(
+            selected: selectedIndex == index,
+            drawerItemModel: destenations[index],
+          )),
     );
   }
 

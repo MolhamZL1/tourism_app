@@ -8,12 +8,18 @@ class ContainersRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      children: [
-        CustomHomeViewContainer(title: "Statues Booked", subTitle: "55"),
-        CustomHomeViewContainer(title: "Sold Tours", subTitle: "45 K"),
-        CustomHomeViewContainer(title: "Canceled Tours", subTitle: "15")
-      ],
-    );
+    return MediaQuery.of(context).size.width > 900
+        ? const Row(
+            children: [
+              CustomHomeViewContainer(title: "Statues Booked", subTitle: "55"),
+              CustomHomeViewContainer(title: "Sold Tours", subTitle: "45 K"),
+              CustomHomeViewContainer(title: "Canceled Tours", subTitle: "15")
+            ],
+          )
+        : const Column(
+            children: [
+              CustomHomeViewContainer(title: "Statues Booked", subTitle: "55"),
+            ],
+          );
   }
 }

@@ -6,7 +6,6 @@ import 'package:tourism_app/core/functions/customSnackBar.dart';
 import 'package:tourism_app/core/shared/shared.dart';
 import 'package:tourism_app/core/utils/go_route.dart';
 import 'package:tourism_app/features/Auth/presentation/view_models/login/login_cubit.dart';
-import 'package:tourism_app/features/Auth/presentation/views/widgets/CheckBoxAndForgotPasswordSection.dart';
 import 'package:tourism_app/features/Auth/presentation/views/widgets/CustomCheckBox.dart';
 import 'package:tourism_app/features/Auth/presentation/views/widgets/EmailTextField.dart';
 import 'package:tourism_app/features/Auth/presentation/views/widgets/PasswordTextField.dart';
@@ -59,6 +58,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           : null,
                       isLoading: state is LoginLoading,
                     ),
+                    const CustomCheckBox()
                   ],
                 ),
               ),

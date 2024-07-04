@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tourism_app/features/AirPlaneCompany/data/models/airPlaneCompanyModel.dart';
 import 'package:tourism_app/features/AirPlaneCompany/presentation/views/widget/AirPlaneItem.dart';
+import 'package:tourism_app/features/Country/data/models/country_model.dart';
 
 class SkeltonList extends StatelessWidget {
   const SkeltonList({super.key});
@@ -24,7 +25,13 @@ class SkeltonList extends StatelessWidget {
                 comforts: "comforts",
                 food: 'food',
                 service: 'service',
-                safe: 'safe'),
+                safe: 'safe',
+                country: ContryModel(
+                  id: 1,
+                  name: "name",
+                  photo: "photo",
+                  rate: "rate",
+                )),
           )),
     );
   }

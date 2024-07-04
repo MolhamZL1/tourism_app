@@ -1,19 +1,17 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tourism_app/core/functions/customSnackBar.dart';
 import 'package:tourism_app/core/utils/api_service.dart';
-import 'package:tourism_app/features/Country/presentation/viewModels/EditCountryCubit/edit_country_cubit.dart';
 import 'package:tourism_app/features/Country/presentation/views/widgets/AddPhotoContainer.dart';
 
 class SelectImage extends StatefulWidget {
-  SelectImage({super.key, this.photo});
-
-  String? photo;
+  const SelectImage({Key? key, this.photo, required this.onPhotoSelected})
+      : super(key: key);
+  final String? photo;
+  final ValueChanged<dynamic> onPhotoSelected;
 
   @override
   State<SelectImage> createState() => _SelectImageState();
@@ -26,78 +24,52 @@ class _SelectImageState extends State<SelectImage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        memoryImage();
-      },
+      onTap: () => _pickImage(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.photo == null
-              ? const Expanded(child: AddPhotoContainer())
-              : _webImage != null || _pickedImage != null
-                  ? kIsWeb
-                      ? Expanded(child: Center(child: Image.memory(_webImage!)))
-                      : Expanded(
-                          child: Center(child: Image.file(_pickedImage!)))
-                  : Expanded(
-                      child: Center(
-                      child: CachedNetworkImage(
-                        imageUrl: "${ApiService.baseURL}${widget.photo}",
-                        errorWidget: (context, url, error) =>
-                            const Center(child: Icon(Icons.error)),
-                      ),
-                    )),
+          Expanded(
+            child: _buildImageWidget(),
+          ),
         ],
       ),
     );
   }
 
-  Future memoryImage() async {
-    if (!kIsWeb) {
-      XFile? image = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
+  Widget _buildImageWidget() {
+    if (_webImage != null) {
+      return Center(child: Image.memory(_webImage!));
+    } else if (_pickedImage != null) {
+      return Center(child: Image.file(_pickedImage!));
+    } else if (widget.photo != null) {
+      return Center(
+        child: CachedNetworkImage(
+          imageUrl: "${ApiService.baseURL}${widget.photo}",
+          errorWidget: (context, url, error) =>
+              const Center(child: Icon(Icons.error)),
+        ),
       );
-      if (image != null) {
-        var selected = File(image.path);
-        widget.photo = "selected";
-        _pickedImage = selected;
-        String fileName = selected.path.split('/').last;
-        FormData formData = FormData.fromMap({
-          "file":
-              await MultipartFile.fromFile(selected.path, filename: fileName),
-        });
-        EditCountryCubit.photo = selected;
+    } else {
+      return const AddPhotoContainer();
+    }
+  }
 
-        setState(() {});
-      } else {
-        customshowSnackBar(context,
-            color: Colors.red, massege: "Photo is required");
-      }
-    } else if (kIsWeb) {
-      XFile? image = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-      );
-      if (image != null) {
+  Future<void> _pickImage() async {
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      if (kIsWeb) {
         final bytes = await image.readAsBytes();
-        FormData formData = FormData.fromMap({
-          'file': MultipartFile.fromBytes(
-            bytes,
-            filename: 'image.jpg',
-          ),
-        });
-
-        //  EditCountryCubit.photo = formData;
-        widget.photo = "f";
         setState(() {
           _webImage = bytes;
         });
+        widget.onPhotoSelected(bytes);
       } else {
-        customshowSnackBar(context,
-            color: Colors.red, massege: "Photo is required");
+        setState(() {
+          _pickedImage = File(image.path);
+        });
+        widget.onPhotoSelected(_pickedImage);
       }
-    } else {
-      customshowSnackBar(context,
-          color: Colors.red, massege: "something went wrong");
     }
   }
 }

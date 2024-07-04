@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tourism_app/core/utils/constants,.dart';
 import 'package:tourism_app/features/AirPlaneCompany/data/models/airPlaneCompanyModel.dart';
+import 'package:tourism_app/features/AirPlaneCompany/presentation/viewmodel/companies_cubit/companies_cubit.dart';
 import 'package:tourism_app/features/AirPlaneCompany/presentation/viewmodel/edit_company_cubit/edit_company_cubit.dart';
 import 'package:tourism_app/features/AirPlaneCompany/presentation/views/widget/CustomAddCompanyDialog.dart';
 
@@ -42,6 +43,7 @@ class _AirPlaneItemState extends State<AirPlaneItem> {
               onPressed: () => {
                 BlocProvider.of<EditCompanyCubit>(context)
                     .deleteCompany(id: widget.airPlaneCompanyModel.id),
+                BlocProvider.of<CompaniesCubit>(context).getAirPlaneCompanies(),
               },
               icon: const Icon(Icons.delete),
               color: Colors.red,
@@ -51,6 +53,7 @@ class _AirPlaneItemState extends State<AirPlaneItem> {
                   context: context,
                   builder: (_) => CustomAddCompanyDialog(
                         companyModel: widget.airPlaneCompanyModel,
+                        viewContext: context,
                       )),
               icon: const Icon(Icons.edit),
               color: Colors.greenAccent,
@@ -67,7 +70,8 @@ class _AirPlaneItemState extends State<AirPlaneItem> {
                   children: [
                     const Icon(Icons.location_on, color: Colors.green),
                     const SizedBox(width: 4),
-                    Text(widget.airPlaneCompanyModel.location),
+                    Text(
+                        "${widget.airPlaneCompanyModel.location}(${widget.airPlaneCompanyModel.country.name})"),
                     const SizedBox(width: 24),
                     const Icon(Icons.star, color: Colors.yellow),
                     const SizedBox(width: 4),

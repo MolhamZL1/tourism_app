@@ -13,8 +13,10 @@ class CustomAddCompanyDialog extends StatefulWidget {
   const CustomAddCompanyDialog({
     super.key,
     this.companyModel,
+    this.viewContext,
   });
   final AirPlaneCompanyModel? companyModel;
+  final BuildContext? viewContext;
 
   @override
   State<CustomAddCompanyDialog> createState() => _CustomAddCompanyDialogState();
@@ -23,6 +25,7 @@ class CustomAddCompanyDialog extends StatefulWidget {
 class _CustomAddCompanyDialogState extends State<CustomAddCompanyDialog> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController rateController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
   final TextEditingController foodRateController = TextEditingController();
   final TextEditingController serviceRateController = TextEditingController();
   final TextEditingController comfortRateController = TextEditingController();
@@ -30,30 +33,29 @@ class _CustomAddCompanyDialogState extends State<CustomAddCompanyDialog> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey();
+  bool photoIsNotSelected = false;
+
   @override
   void initState() {
-    nameController.text =
-        widget.companyModel?.name == null ? "" : widget.companyModel!.name;
-    descriptionController.text = widget.companyModel?.description == null
-        ? ""
-        : widget.companyModel!.description;
-    locationController.text = widget.companyModel?.location == null
-        ? ""
-        : widget.companyModel!.location;
-    rateController.text =
-        widget.companyModel?.rate == null ? "Low" : widget.companyModel!.rate;
-    foodRateController.text =
-        widget.companyModel?.food == null ? "Low" : widget.companyModel!.food;
-    serviceRateController.text = widget.companyModel?.service == null
-        ? "Low"
-        : widget.companyModel!.service;
-    comfortRateController.text = widget.companyModel?.comforts == null
-        ? "Low"
-        : widget.companyModel!.comforts;
-    safeRateController.text =
-        widget.companyModel?.safe == null ? "Low" : widget.companyModel!.safe;
-
     super.initState();
+    EditCompanyCubit.photo = null;
+    if (widget.companyModel != null) {
+      nameController.text = widget.companyModel!.name;
+      descriptionController.text = widget.companyModel!.description;
+      locationController.text = widget.companyModel!.location;
+      rateController.text = widget.companyModel!.rate;
+      foodRateController.text = widget.companyModel!.food;
+      serviceRateController.text = widget.companyModel!.service;
+      comfortRateController.text = widget.companyModel!.comforts;
+      safeRateController.text = widget.companyModel!.safe;
+      countryController.text = widget.companyModel!.country.name ?? "";
+    } else {
+      rateController.text = "Low";
+      foodRateController.text = "Low";
+      serviceRateController.text = "Low";
+      comfortRateController.text = "Low";
+      safeRateController.text = "Low";
+    }
   }
 
   @override
@@ -63,75 +65,113 @@ class _CustomAddCompanyDialogState extends State<CustomAddCompanyDialog> {
       child: AlertDialog(
         backgroundColor: Colors.white,
         title: Text(
-            widget.companyModel?.name == null
-                ? "Add New Company"
-                : widget.companyModel!.name,
-            style: const TextStyle(fontSize: 24)),
+          widget.companyModel?.name == null
+              ? "Add New Company"
+              : widget.companyModel!.name,
+          style: const TextStyle(fontSize: 24),
+        ),
         content: ContentAddCompanyDialog(
-            formKey: formKey,
-            descriptionController: descriptionController,
-            locationController: locationController,
-            companyModel: widget.companyModel,
-            nameController: nameController,
-            rateController: rateController,
-            foodRateController: foodRateController,
-            comfortRateController: comfortRateController,
-            safeRateController: safeRateController,
-            serviceRateController: serviceRateController),
+          formKey: formKey,
+          descriptionController: descriptionController,
+          locationController: locationController,
+          companyModel: widget.companyModel,
+          nameController: nameController,
+          rateController: rateController,
+          foodRateController: foodRateController,
+          comfortRateController: comfortRateController,
+          safeRateController: safeRateController,
+          serviceRateController: serviceRateController,
+          isFailure: photoIsNotSelected,
+          countryController: countryController,
+        ),
         actions: [
           BlocConsumer<EditCompanyCubit, EditCompanyState>(
-            listener: (context, state) => state is EditCompanySuccess
-                ? {
-                    GoRouter.of(context).pop(),
-                    BlocProvider.of<CompaniesCubit>(context)
-                        .getAirPlaneCompanies()
-                  }
-                : null,
+            listener: (context, state) {
+              if (state is EditCompanySuccess) {
+                GoRouter.of(context).pop();
+                BlocProvider.of<CompaniesCubit>(widget.viewContext!)
+                    .getAirPlaneCompanies();
+              }
+            },
             builder: (context, state) {
-              return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                Visibility(
-                  visible: widget.companyModel?.name != null,
-                  child: TextButton(
-                      onPressed: () =>
-                          BlocProvider.of<EditCompanyCubit>(context)
-                              .deleteCompany(id: widget.companyModel!.id),
-                      child: const Text(
-                        "Delete",
-                        style: TextStyle(color: Colors.red),
-                      )),
-                ),
-                const Spacer(),
-                state is EditCompanyFailure
-                    ? Text(
-                        state.errMessage,
-                        style: const TextStyle(color: Colors.red),
-                      )
-                    : const SizedBox(),
-                TextButton(
-                    onPressed: () => GoRouter.of(context).pop(),
-                    child: const Text(
-                      "Cancle",
-                      style: TextStyle(color: Colors.black),
-                    )),
-                const SizedBox(width: 16),
-                state is EditCompanyLoading
-                    ? const Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: CircularProgressIndicator(color: kColor),
-                      )
-                    : ElevatedButton(
-                        onPressed: () =>
-                            formKey.currentState!.validate() ? null : null,
-                        style: const ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll(kColor)),
+              return Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          GoRouter.of(context).pop();
+                          EditCompanyCubit.photo = null;
+                        },
                         child: const Text(
-                          "Save",
-                          style: TextStyle(color: Colors.white),
+                          "Cancel",
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
-              ]);
+                      const SizedBox(width: 16),
+                      state is EditCompanyLoading
+                          ? const Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: CircularProgressIndicator(color: kColor),
+                            )
+                          : ElevatedButton(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  if (widget.companyModel == null) {
+                                    if (EditCompanyCubit.photo != null) {
+                                      BlocProvider.of<EditCompanyCubit>(context)
+                                          .addCompany(
+                                        name: nameController.text,
+                                        rate: rateController.text,
+                                        comforts: comfortRateController.text,
+                                        description: descriptionController.text,
+                                        food: foodRateController.text,
+                                        location: locationController.text,
+                                        safe: safeRateController.text,
+                                        service: serviceRateController.text,
+                                        country: countryController.text,
+                                      );
+                                    } else {
+                                      setState(() {
+                                        photoIsNotSelected = true;
+                                      });
+                                    }
+                                  } else {
+                                    BlocProvider.of<EditCompanyCubit>(context)
+                                        .updateCompany(
+                                      id: widget.companyModel!.id,
+                                      name: nameController.text,
+                                      rate: rateController.text,
+                                      comforts: comfortRateController.text,
+                                      description: descriptionController.text,
+                                      food: foodRateController.text,
+                                      location: locationController.text,
+                                      safe: safeRateController.text,
+                                      service: serviceRateController.text,
+                                      country: countryController.text,
+                                    );
+                                  }
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: kColor),
+                              child: const Text(
+                                "Save",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                    ],
+                  ),
+                  if (state is EditCompanyFailure)
+                    Text(
+                      state.errMessage,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                ],
+              );
             },
-          )
+          ),
         ],
       ),
     );

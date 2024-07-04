@@ -4,12 +4,20 @@ import 'package:tourism_app/features/Trips/data/models/trip_model.dart';
 
 abstract class TripsRepo {
   Future<Either<ServerFailure, List<TripModel>>> getTrips();
-  // Future<Either<ServerFailure, String>> addCountry(
-  //     {required String name, required String rate, required FormData photo});
-  // Future<Either<ServerFailure, String>> deleteCountry({required int id});
-  // Future<Either<ServerFailure, String>> updateCountry(
-  //     {required int id,
-  //     required String newName,
-  //     required String rate,
-  //     required String photo});
+  Future<Either<ServerFailure, String>> addTrip(
+      {required String place,
+      required String time,
+      required int price,
+      required int amountPeople,
+      required String country,
+      required String company});
+  Future<Either<ServerFailure, String>> updateCountry(
+      {required int id,
+      String? place,
+      String? time,
+      int? price,
+      int? amountPeople,
+      required String country,
+      required String company});
+  Future<Either<ServerFailure, String>> deleteTrip({required int id});
 }

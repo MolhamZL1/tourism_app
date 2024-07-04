@@ -29,60 +29,58 @@ class _CountryViewBodyState extends State<CountryViewBody> {
       onRefresh: () => BlocProvider.of<CountryCubit>(context).getCountries(),
       child: BlocBuilder<CountryCubit, CountryState>(
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Visibility(
-                    visible: state is! CountryFailure,
-                    child: Image.asset("images/earth.png",
-                        height: MediaQuery.of(context).size.height / 3,
-                        fit: BoxFit.scaleDown),
-                  ),
+          return CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Visibility(
+                  visible: state is! CountryFailure,
+                  child: Image.asset("images/earth.png",
+                      height: MediaQuery.of(context).size.height / 3,
+                      fit: BoxFit.scaleDown),
                 ),
-                const SliverToBoxAdapter(child: SizedBox(height: 8)),
-                state is CountrySuccess
-                    ? SliverGrid.builder(
-                        itemCount: state.countries.length + 1,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount:
-                                MediaQuery.of(context).size.width < 900 ? 2 : 4,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16),
-                        itemBuilder: (context, index) =>
-                            index == state.countries.length
-                                ? AdditionContainer(
-                                    ontap: () => showDialog(
-                                      context: context,
-                                      builder: (_) =>
-                                          const CustomAddCountryDailog(),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 8)),
+              state is CountrySuccess
+                  ? SliverGrid.builder(
+                      itemCount: state.countries.length + 1,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount:
+                              MediaQuery.of(context).size.width < 900 ? 2 : 4,
+                          mainAxisSpacing: 24),
+                      itemBuilder: (context, index) =>
+                          index == state.countries.length
+                              ? AdditionContainer(
+                                  ontap: () => showDialog(
+                                    context: context,
+                                    builder: (_) => CustomAddCountryDailog(
+                                      viewContext: context,
                                     ),
-                                  )
-                                : GestureDetector(
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (_) => CustomAddCountryDailog(
-                                          countryModel: state.countries[index],
-                                        ),
-                                      );
-                                    },
-                                    child: CountryItem(
-                                        countryModel: state.countries[index]),
                                   ),
-                      )
-                    : state is CountryLoading
-                        ? const SkeletonizerGrid()
-                        : state is CountryFailure
-                            ? SliverImageError(
-                                errMessage: state.errMessage,
-                              )
-                            : const SliverToBoxAdapter(
-                                child: SizedBox(),
-                              ),
-              ],
-            ),
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) => CustomAddCountryDailog(
+                                        countryModel: state.countries[index],
+                                        viewContext: context,
+                                      ),
+                                    );
+                                  },
+                                  child: CountryItem(
+                                      countryModel: state.countries[index]),
+                                ),
+                    )
+                  : state is CountryLoading
+                      ? const SkeletonizerGrid()
+                      : state is CountryFailure
+                          ? SliverImageError(
+                              errMessage: state.errMessage,
+                            )
+                          : const SliverToBoxAdapter(
+                              child: SizedBox(),
+                            ),
+            ],
           );
         },
       ),

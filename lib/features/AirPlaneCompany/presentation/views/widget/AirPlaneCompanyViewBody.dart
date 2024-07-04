@@ -5,7 +5,9 @@ import 'package:tourism_app/core/widgets/SliverImageError.dart';
 import 'package:tourism_app/features/AirPlaneCompany/presentation/viewmodel/companies_cubit/companies_cubit.dart';
 import 'package:tourism_app/features/AirPlaneCompany/presentation/views/widget/AirPlaneItem.dart';
 import 'package:tourism_app/features/AirPlaneCompany/presentation/views/widget/AirplaneAditionItem.dart';
+import 'package:tourism_app/features/AirPlaneCompany/presentation/views/widget/CustomAddCompanyDialog.dart';
 import 'package:tourism_app/features/AirPlaneCompany/presentation/views/widget/SkeltonList.dart';
+import 'package:tourism_app/features/Country/presentation/viewModels/CountryCubit/country_cubit.dart';
 
 class AirPlaneCompanyViewBody extends StatefulWidget {
   const AirPlaneCompanyViewBody({super.key});
@@ -19,6 +21,7 @@ class _AirPlaneCompanyViewBodyState extends State<AirPlaneCompanyViewBody> {
   @override
   void initState() {
     BlocProvider.of<CompaniesCubit>(context).getAirPlaneCompanies();
+    BlocProvider.of<CountryCubit>(context).getCountries();
     super.initState();
   }
 
@@ -48,7 +51,14 @@ class _AirPlaneCompanyViewBodyState extends State<AirPlaneCompanyViewBody> {
                           itemCount: state.companies.length + 1,
                           itemBuilder: (context, index) => index ==
                                   state.companies.length
-                              ? AirplaneAditionItem(ontap: () {})
+                              ? AirplaneAditionItem(
+                                  ontap: () => showDialog(
+                                    context: context,
+                                    builder: (_) => CustomAddCompanyDialog(
+                                      viewContext: context,
+                                    ),
+                                  ),
+                                )
                               : AirPlaneItem(
                                   airPlaneCompanyModel: state.companies[index],
                                 ),

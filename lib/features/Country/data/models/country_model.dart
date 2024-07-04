@@ -1,17 +1,13 @@
-class CountryModel {
-  final String photo;
-  final String rate;
-  final String name;
-  final int id;
+class ContryModel {
+  String? photo;
+  String? rate;
+  String? name;
+  int? id;
 
-  CountryModel(
-      {required this.id,
-      required this.photo,
-      required this.rate,
-      required this.name});
+  ContryModel({this.id, this.photo, this.rate, this.name});
 
-  factory CountryModel.fromJson(Map<String, dynamic> json) {
-    return CountryModel(
+  factory ContryModel.fromJson(Map<String, dynamic> json) {
+    return ContryModel(
       photo: json["photo"],
       rate: json["Rate"],
       name: json["name"],

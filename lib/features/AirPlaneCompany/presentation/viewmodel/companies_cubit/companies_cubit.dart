@@ -8,12 +8,18 @@ part 'companies_state.dart';
 class CompaniesCubit extends Cubit<CompaniesState> {
   CompaniesCubit(this.airPalneCompanyRepo) : super(CompaniesInitial());
   final AirPalneCompanyRepo airPalneCompanyRepo;
+  static List<String> bloccompanies = [];
   Future<void> getAirPlaneCompanies() async {
     emit(CompaniesLoading());
     var result = await airPalneCompanyRepo.getAirPlaneCompanies();
     result.fold(
-      (failure) => emit(CompaniesFailure(errMessage: failure.errMessage)),
-      (companies) => emit(CompaniesSuccess(companies: companies)),
-    );
+        (failure) => emit(CompaniesFailure(errMessage: failure.errMessage)),
+        (companies) {
+      emit(CompaniesSuccess(companies: companies));
+      bloccompanies.clear();
+      for (var company in companies) {
+        bloccompanies.add(company.name);
+      }
+    });
   }
 }

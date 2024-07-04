@@ -10,7 +10,7 @@ sealed class CountryState extends Equatable {
 final class CountryInitial extends CountryState {}
 
 final class CountrySuccess extends CountryState {
-  final List<CountryModel> countries;
+  final List<ContryModel> countries;
 
   const CountrySuccess({required this.countries});
 }

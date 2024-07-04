@@ -3,30 +3,26 @@ import 'package:tourism_app/core/widgets/ExpantionListRate.dart';
 import 'package:tourism_app/features/Country/data/models/country_model.dart';
 import 'package:tourism_app/core/widgets/CustomTextField.dart';
 import 'package:tourism_app/core/widgets/SelectImage.dart';
+import 'package:tourism_app/features/Country/presentation/viewModels/EditCountryCubit/edit_country_cubit.dart';
 
-class ContentAddCountryDialog extends StatefulWidget {
-  const ContentAddCountryDialog({
-    super.key,
-    this.countryModel,
-    required this.nameController,
-    required this.rateController,
-    required this.formkey,
-  });
-  final CountryModel? countryModel;
+class ContentAddCountryDialog extends StatelessWidget {
+  ContentAddCountryDialog(
+      {super.key,
+      this.countryModel,
+      required this.nameController,
+      required this.rateController,
+      required this.formkey,
+      this.isFailure = false});
+  final ContryModel? countryModel;
   final TextEditingController nameController;
   final TextEditingController rateController;
   final GlobalKey<FormState> formkey;
+  bool isFailure;
 
-  @override
-  State<ContentAddCountryDialog> createState() =>
-      _ContentAddCountryDialogState();
-}
-
-class _ContentAddCountryDialogState extends State<ContentAddCountryDialog> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: widget.formkey,
+      key: formkey,
       child: SizedBox(
         width: 700,
         height: 400,
@@ -39,8 +35,10 @@ class _ContentAddCountryDialogState extends State<ContentAddCountryDialog> {
                     Expanded(
                       flex: 3,
                       child: SelectImage(
-                        photo: widget.countryModel?.photo,
-                      ),
+                          photo: countryModel?.photo,
+                          onPhotoSelected: (value) => {
+                                EditCountryCubit.photo = value,
+                              }),
                     ),
                     Expanded(
                       flex: 2,
@@ -49,13 +47,19 @@ class _ContentAddCountryDialogState extends State<ContentAddCountryDialog> {
                           child: Column(
                             children: [
                               CustomTextField(
-                                controller: widget.nameController,
+                                controller: nameController,
                                 labelText: "Country Name",
                               ),
                               ExpantionListRate(
-                                rateController: widget.rateController,
+                                rateController: rateController,
                                 label: "Country Rate",
                               ),
+                              Visibility(
+                                  visible: isFailure,
+                                  child: const Text(
+                                    "Photo is required",
+                                    style: TextStyle(color: Colors.red),
+                                  )),
                             ],
                           )),
                     )
@@ -67,15 +71,24 @@ class _ContentAddCountryDialogState extends State<ContentAddCountryDialog> {
                     SizedBox(
                       height: 200,
                       child: SelectImage(
-                        photo: widget.countryModel?.photo,
+                        photo: countryModel?.photo,
+                        onPhotoSelected: (value) =>
+                            //   EditCountryCubit.photo =
+                            value,
                       ),
                     ),
+                    Visibility(
+                        visible: isFailure,
+                        child: const Text(
+                          "Photo is required",
+                          style: TextStyle(color: Colors.red),
+                        )),
                     CustomTextField(
-                      controller: widget.nameController,
+                      controller: nameController,
                       labelText: "Country Name",
                     ),
                     ExpantionListRate(
-                      rateController: widget.rateController,
+                      rateController: rateController,
                       label: "Country Rate",
                     ),
                   ],

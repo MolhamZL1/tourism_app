@@ -4,22 +4,25 @@ import 'package:tourism_app/features/Country/data/models/country_model.dart';
 import 'package:tourism_app/features/Country/presentation/views/widgets/CountryItem.dart';
 
 class SkeletonizerGrid extends StatefulWidget {
-  const SkeletonizerGrid({super.key});
-
+  const SkeletonizerGrid({super.key, this.mobile = 2, this.desktop = 4});
+  final int mobile;
+  final int desktop;
   @override
   State<SkeletonizerGrid> createState() => _SkeletonizerGridState();
 }
 
 class _SkeletonizerGridState extends State<SkeletonizerGrid> {
-  final CountryModel countryModel = CountryModel(
-      id: 0, photo: "images/dubai.jpg", rate: "rate", name: "name");
+  final ContryModel countryModel =
+      ContryModel(id: 0, photo: "images/dubai.jpg", rate: "rate", name: "name");
 
   @override
   Widget build(BuildContext context) {
     return SliverGrid.builder(
       itemCount: 8,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: MediaQuery.of(context).size.width < 900 ? 2 : 4,
+          crossAxisCount: MediaQuery.of(context).size.width < 900
+              ? widget.mobile
+              : widget.desktop,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16),
       itemBuilder: (context, index) => Skeletonizer(

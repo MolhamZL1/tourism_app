@@ -1,10 +1,10 @@
+import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tourism_app/core/functions/buildContainerDecoratin.dart';
 import 'package:tourism_app/core/utils/api_service.dart';
 import 'package:tourism_app/features/Country/data/models/country_model.dart';
-import 'package:tourism_app/features/Country/presentation/views/widgets/Rating.dart';
+import 'package:tourism_app/core/widgets/Rating.dart';
 
 class CountryItem extends StatelessWidget {
   const CountryItem({
@@ -12,12 +12,13 @@ class CountryItem extends StatelessWidget {
     required this.countryModel,
     this.loading = false,
   });
-  final CountryModel? countryModel;
+  final ContryModel? countryModel;
   final bool loading;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
         decoration: buildContainerDecoration(),
         child: Column(
           children: [
@@ -28,14 +29,18 @@ class CountryItem extends StatelessWidget {
                     topRight: Radius.circular(24)),
                 child: loading
                     ? Image.asset(
-                        countryModel!.photo,
+                        countryModel!.photo!,
                         fit: BoxFit.cover,
                       )
-                    : CachedNetworkImage(
-                        imageUrl: "${ApiService.baseURL}${countryModel!.photo}",
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                        fit: BoxFit.cover,
+                    : BackdropFilter(
+                        filter: ImageFilter.blur(tileMode: TileMode.mirror),
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              "${ApiService.baseURL}${countryModel!.photo}",
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          fit: BoxFit.cover,
+                        ),
                       ),
               ),
             ),
@@ -47,12 +52,12 @@ class CountryItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        countryModel!.name,
+                        countryModel!.name!,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                  Rating(avarage: countryModel!.rate),
+                  Rating(avarage: countryModel!.rate!),
                 ],
               ),
             )

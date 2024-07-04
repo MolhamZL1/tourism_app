@@ -6,7 +6,7 @@ class TripModel {
   final String tripPlace;
   final String timeTrip;
   final int price;
-  final CountryModel country;
+  final ContryModel country;
   final int amountPeople;
   final AirPlaneCompanyModel company;
 
@@ -26,7 +26,7 @@ class TripModel {
         tripPlace: json['TripPlace'],
         timeTrip: json['TimeTrip'],
         price: json['Price'],
-        country: CountryModel.fromJson(json['country']),
+        country: ContryModel.fromJson(json['country']),
         company: AirPlaneCompanyModel.fromJson(json['company']),
       );
 }

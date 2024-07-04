@@ -27,4 +27,73 @@ class TripsRepoImp implements TripsRepo {
       return left(ServerFailure(errMessage: e.toString()));
     }
   }
+
+  @override
+  Future<Either<ServerFailure, String>> addTrip(
+      {required String place,
+      required String time,
+      required int price,
+      required int amountPeople,
+      required String country,
+      required String company}) async {
+    try {
+      var data = await apiService.post(endPoint: "InputFlightTrip", body: {
+        "TripPlace": place,
+        "TimeTrip": time,
+        "Price": price,
+        "amountpeople": amountPeople,
+        "CountrynameTowards": country,
+        "nameCompany": company,
+      });
+      return right(data["message"]);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ServerFailure, String>> updateCountry(
+      {required int id,
+      String? place,
+      String? time,
+      int? price,
+      int? amountPeople,
+      String? country,
+      String? company}) async {
+    try {
+      var data = await apiService.post(endPoint: "UpdateFlightTrip", body: {
+        "id": id,
+        "NewTripPlace": place,
+        "TimeTrip": time,
+        "Price": price,
+        "amountpeople": amountPeople,
+        "CountrynameTowards": country,
+        "nameCompany": company,
+      });
+      return right(data["message"]);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ServerFailure, String>> deleteTrip({required int id}) async {
+    try {
+      var data =
+          await apiService.post(endPoint: "DropFlightTrip", body: {"id": id});
+
+      return right(data["message"]);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
 }

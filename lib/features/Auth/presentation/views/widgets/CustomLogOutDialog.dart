@@ -18,7 +18,8 @@ class CustomLogOutDialog extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Colors.white,
       title: const Text("Are you sure?", style: TextStyle(fontSize: 24)),
-      content: Image.asset("images/logout.jpg"),
+      content: SizedBox(
+          height: 200, width: 300, child: Image.asset("images/logout.jpg")),
       actions: [
         TextButton(
             onPressed: () => GoRouter.of(context).pop(),
