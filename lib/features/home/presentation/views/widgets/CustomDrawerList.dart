@@ -15,10 +15,8 @@ class CustomDrawerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return SliverList.builder(
       itemCount: destenations.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => GestureDetector(
           onTap: _handleTap(index),
           child: CustomDrawerItem(

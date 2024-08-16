@@ -1,34 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class Rating extends StatelessWidget {
-  const Rating({
+class ShowRating extends StatelessWidget {
+  const ShowRating({
     super.key,
     this.mainAxisAlignment = MainAxisAlignment.end,
     required this.avarage,
+    this.size = 20,
   });
 
   final MainAxisAlignment mainAxisAlignment;
   final String avarage;
+  final double size;
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: mainAxisAlignment,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const Icon(
-          FontAwesomeIcons.solidStar,
-          color: Colors.yellow,
-          size: 16,
-        ),
-        const SizedBox(
-          width: 6.3,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: Text(
-            avarage.toString(),
-          ),
-        ),
+        RatingBar(
+            ignoreGestures: true,
+            itemSize: size,
+            glowColor: Colors.amber,
+            maxRating: 5,
+            minRating: 1,
+            initialRating: double.parse(avarage),
+            ratingWidget: RatingWidget(
+              full: const Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+              half: const Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+              empty: const Icon(
+                Icons.star,
+                color: Colors.grey,
+              ),
+            ),
+            onRatingUpdate: (value) {}),
       ],
     );
   }

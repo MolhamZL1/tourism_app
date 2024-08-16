@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_formatter/date_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:tourism_app/core/functions/buildContainerDecoratin.dart';
+import 'package:tourism_app/core/functions/build_container_decoratin.dart';
 import 'package:tourism_app/core/utils/api_service.dart';
 import 'package:tourism_app/core/utils/constants,.dart';
 import 'package:tourism_app/features/Trips/data/models/trip_model.dart';

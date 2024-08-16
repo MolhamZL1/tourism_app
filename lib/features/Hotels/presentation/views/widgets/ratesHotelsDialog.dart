@@ -35,37 +35,40 @@ class RatesHotelsDialog extends StatelessWidget {
         CustomTextField(
           controller: nameController,
           labelText: "Hotel Name",
+          icon: Icons.hotel,
         ),
         CustomTextField(
           controller: locationController,
           labelText: "Hotel Location",
+          icon: Icons.location_on,
         ),
         CustomExpantionListTile(
             controller: countryController,
-            list: CountryCubit.bloccountries,
+            list: CountryCubit.bloccountriesNames,
             label: "Hotel"),
         CustomTextField(
           controller: descriptionController,
           labelText: "Hotel Description",
           maxLines: 5,
+          icon: Icons.description,
         ),
-        ExpantionListRate(
+        StarsRatingBar(
           rateController: rateController,
           label: "Hotel Rate",
         ),
-        ExpantionListRate(
+        StarsRatingBar(
           rateController: foodRateController,
           label: "Food Rate",
         ),
-        ExpantionListRate(
+        StarsRatingBar(
           rateController: comfortRateController,
           label: "Comforte Rate",
         ),
-        ExpantionListRate(
+        StarsRatingBar(
           rateController: safeRateController,
           label: "Safety Rate",
         ),
-        ExpantionListRate(
+        StarsRatingBar(
           rateController: serviceRateController,
           label: "Service Rate",
         ),

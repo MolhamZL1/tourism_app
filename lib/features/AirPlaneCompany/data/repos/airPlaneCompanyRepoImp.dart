@@ -58,9 +58,8 @@ class AirPlaneCompanyrepoImp implements AirPalneCompanyRepo {
         "safe": safe,
         "nameOfCountry": country
       });
-      var data = await apiService.post(
-          endPoint: "InputAirPlaneCompany", body: formData);
-      return right(data["message"]);
+      await apiService.post(endPoint: "InputAirPlaneCompany", body: formData);
+      return right("success");
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
@@ -101,8 +100,7 @@ class AirPlaneCompanyrepoImp implements AirPalneCompanyRepo {
         "safe": safe,
         "nameOfCountry": country
       });
-      var data = await apiService.post(
-          endPoint: "updateAirplaneCompany", body: formData);
+      await apiService.post(endPoint: "updateAirplaneCompany", body: formData);
 
       return right("success");
     } catch (e) {
@@ -117,10 +115,9 @@ class AirPlaneCompanyrepoImp implements AirPalneCompanyRepo {
   Future<Either<ServerFailure, String>> deleteAirPlaneCompany(
       {required int id}) async {
     try {
-      var data = await apiService
-          .post(endPoint: "DropAirplaneCompany", body: {'id': id});
+      await apiService.post(endPoint: "DropAirplaneCompany", body: {'id': id});
 
-      return right(data["message"]);
+      return right("success");
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));

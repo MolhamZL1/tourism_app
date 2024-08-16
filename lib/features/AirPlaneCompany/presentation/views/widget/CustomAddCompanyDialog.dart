@@ -50,11 +50,11 @@ class _CustomAddCompanyDialogState extends State<CustomAddCompanyDialog> {
       safeRateController.text = widget.companyModel!.safe;
       countryController.text = widget.companyModel!.country.name ?? "";
     } else {
-      rateController.text = "Low";
-      foodRateController.text = "Low";
-      serviceRateController.text = "Low";
-      comfortRateController.text = "Low";
-      safeRateController.text = "Low";
+      rateController.text = "1";
+      foodRateController.text = "1";
+      serviceRateController.text = "1";
+      comfortRateController.text = "1";
+      safeRateController.text = "1";
     }
   }
 

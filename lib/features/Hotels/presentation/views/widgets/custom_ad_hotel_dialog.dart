@@ -53,11 +53,11 @@ class _CustomAddHotelDialogState extends State<CustomAddHotelDialog> {
       comfortRateController.text = widget.hotelModel!.comforts!;
       safeRateController.text = widget.hotelModel!.safe!;
     } else {
-      rateController.text = "Low";
-      foodRateController.text = "Low";
-      serviceRateController.text = "Low";
-      comfortRateController.text = "Low";
-      safeRateController.text = "Low";
+      rateController.text = "1";
+      foodRateController.text = "1";
+      serviceRateController.text = "1";
+      comfortRateController.text = "1";
+      safeRateController.text = "1";
     }
     super.initState();
   }

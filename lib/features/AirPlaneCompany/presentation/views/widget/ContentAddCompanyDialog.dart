@@ -3,6 +3,7 @@ import 'package:tourism_app/features/AirPlaneCompany/data/models/airPlaneCompany
 import 'package:tourism_app/features/AirPlaneCompany/presentation/viewmodel/edit_company_cubit/edit_company_cubit.dart';
 import 'package:tourism_app/features/AirPlaneCompany/presentation/views/widget/RatesCompaniesDialog.dart';
 import 'package:tourism_app/core/widgets/SelectImage.dart';
+import '../../../../../core/widgets/CustomTextField.dart';
 
 class ContentAddCompanyDialog extends StatelessWidget {
   const ContentAddCompanyDialog({
@@ -68,11 +69,24 @@ class ContentAddCompanyDialog extends StatelessWidget {
             children: [
               Expanded(
                 flex: 3,
-                child: SelectImage(
-                  photo: companyModel?.photo,
-                  onPhotoSelected: (value) {
-                    EditCompanyCubit.photo = value;
-                  },
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SelectImage(
+                        photo: companyModel?.photo,
+                        onPhotoSelected: (value) {
+                          EditCompanyCubit.photo = value;
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomTextField(
+                        controller: descriptionController,
+                        labelText: "Company Description",
+                        maxLines: 5,
+                      ),
+                    )
+                  ],
                 ),
               ),
               Expanded(
@@ -111,6 +125,14 @@ class ContentAddCompanyDialog extends StatelessWidget {
             onPhotoSelected: (value) {
               EditCompanyCubit.photo = value;
             },
+          ),
+        ),
+        SizedBox(
+          height: 200,
+          child: CustomTextField(
+            controller: descriptionController,
+            labelText: "Company Description",
+            maxLines: 5,
           ),
         ),
         Visibility(

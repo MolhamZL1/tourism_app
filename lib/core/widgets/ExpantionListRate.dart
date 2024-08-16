@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tourism_app/core/utils/constants,.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class ExpantionListRate extends StatefulWidget {
-  const ExpantionListRate({
+class StarsRatingBar extends StatelessWidget {
+  const StarsRatingBar({
     super.key,
     required this.rateController,
     required this.label,
@@ -12,59 +12,51 @@ class ExpantionListRate extends StatefulWidget {
   final String label;
 
   @override
-  State<ExpantionListRate> createState() => _ExpantionListRateState();
-}
-
-class _ExpantionListRateState extends State<ExpantionListRate> {
-  final ExpansionTileController expansionTileController =
-      ExpansionTileController();
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            " ${widget.label}",
-            style: const TextStyle(color: Colors.grey),
-          ),
-          ExpansionTile(
-            controller: expansionTileController,
-            collapsedShape: const RoundedRectangleBorder(
-                side: BorderSide(color: Colors.grey),
-                borderRadius: BorderRadius.all(Radius.circular(8))),
-            iconColor: kColor,
-            shape: const RoundedRectangleBorder(
-                side: BorderSide(color: kColor),
-                borderRadius: BorderRadius.all(Radius.circular(8))),
-            title: Text(widget.rateController.text),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.withOpacity(.7)),
+            borderRadius: BorderRadius.circular(8)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ListTile(
-                  onTap: () => {
-                        expansionTileController.collapse(),
-                        widget.rateController.text = "Low",
-                        setState(() {})
-                      },
-                  title: const Text("Low")),
-              ListTile(
-                  onTap: () => {
-                        expansionTileController.collapse(),
-                        widget.rateController.text = "Middle",
-                        setState(() {})
-                      },
-                  title: const Text("Middle")),
-              ListTile(
-                  onTap: () => {
-                        expansionTileController.collapse(),
-                        widget.rateController.text = "High",
-                        setState(() {})
-                      },
-                  title: const Text("High"))
+              Text(
+                " $label:",
+                style: const TextStyle(color: Colors.grey),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: FittedBox(
+                  child: RatingBar(
+                      glowColor: Colors.amber,
+                      maxRating: 5,
+                      minRating: 1,
+                      initialRating: double.parse(rateController.text),
+                      ratingWidget: RatingWidget(
+                        full: const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        half: const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        empty: const Icon(
+                          Icons.star,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      onRatingUpdate: (value) =>
+                          rateController.text = value.toString()),
+                ),
+              )
             ],
           ),
-        ],
+        ),
       ),
     );
   }

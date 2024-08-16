@@ -13,7 +13,7 @@ class SkeletonizerGrid extends StatefulWidget {
 
 class _SkeletonizerGridState extends State<SkeletonizerGrid> {
   final ContryModel countryModel =
-      ContryModel(id: 0, photo: "images/dubai.jpg", rate: "rate", name: "name");
+      ContryModel(id: 0, photo: "images/dubai.jpg", rate: "2", name: "name");
 
   @override
   Widget build(BuildContext context) {

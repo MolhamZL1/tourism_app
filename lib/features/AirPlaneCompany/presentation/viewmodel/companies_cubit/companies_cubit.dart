@@ -8,7 +8,9 @@ part 'companies_state.dart';
 class CompaniesCubit extends Cubit<CompaniesState> {
   CompaniesCubit(this.airPalneCompanyRepo) : super(CompaniesInitial());
   final AirPalneCompanyRepo airPalneCompanyRepo;
-  static List<String> bloccompanies = [];
+  static List<String> bloccompaniesNames = [];
+  List<AirPlaneCompanyModel> bloccompanies = [];
+
   Future<void> getAirPlaneCompanies() async {
     emit(CompaniesLoading());
     var result = await airPalneCompanyRepo.getAirPlaneCompanies();
@@ -17,9 +19,30 @@ class CompaniesCubit extends Cubit<CompaniesState> {
         (companies) {
       emit(CompaniesSuccess(companies: companies));
       bloccompanies.clear();
+      bloccompaniesNames.clear();
       for (var company in companies) {
-        bloccompanies.add(company.name);
+        bloccompanies.add(company);
+        bloccompaniesNames.add(company.name);
       }
     });
+  }
+
+  void searchAirPlaneCompany({required String quary}) {
+    emit(CompaniesLoading());
+    try {
+      List<AirPlaneCompanyModel> result = [];
+      for (var company in bloccompanies) {
+        if (company.name.toLowerCase().contains(quary.toLowerCase())) {
+          result.add(company);
+        }
+      }
+      if (result.isNotEmpty) {
+        emit(CompaniesSuccess(companies: result));
+      } else {
+        emit(const CompaniesFailure(errMessage: "Not Found"));
+      }
+    } catch (e) {
+      emit(CompaniesFailure(errMessage: e.toString()));
+    }
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tourism_app/core/functions/backGroundImage.dart';
-import 'package:tourism_app/core/functions/customSnackBar.dart';
+import 'package:tourism_app/core/functions/back_ground_image.dart';
+import 'package:tourism_app/core/functions/custom_snack_bar.dart';
 import 'package:tourism_app/core/shared/shared.dart';
 import 'package:tourism_app/core/utils/go_route.dart';
 import 'package:tourism_app/features/Auth/presentation/view_models/login/login_cubit.dart';

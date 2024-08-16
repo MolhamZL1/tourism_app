@@ -39,12 +39,14 @@ class HotelRepoImp extends HotelRepo {
         ),
         "food": hotelModel.food,
         "service": hotelModel.service,
-        "comforts": hotelModel.comforts,
+        "Comforts": hotelModel.comforts,
         "safe": hotelModel.safe,
         "Rate": hotelModel.rate,
         "nameOfCountry": hotelModel.contrey!.name,
       });
-      await apiService.post(endPoint: "inputHotelInformation", body: formData);
+      var data = await apiService.post(
+          endPoint: "inputHotelInformation", body: formData);
+      print(data["message"]);
 
       return right("success");
     } catch (e) {

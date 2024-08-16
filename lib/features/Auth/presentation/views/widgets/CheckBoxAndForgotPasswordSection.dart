@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tourism_app/features/Auth/presentation/views/widgets/CustomCheckBox.dart';
 import 'package:tourism_app/features/Auth/presentation/views/widgets/forgot_password_text.dart';
 
 class CheckBoxAndForgotPasswordSection extends StatelessWidget {

@@ -22,7 +22,7 @@ class _DesktopLayoutState extends State<DesktopLayout> {
                 onDestinationSelected: (value) =>
                     setState(() => widget.selectedIndex = value))),
         Expanded(
-          flex: 3,
+          flex: 4,
           child: views[widget.selectedIndex],
         ),
       ],

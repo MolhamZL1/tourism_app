@@ -1,9 +1,8 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:tourism_app/core/functions/pick_image_from_device.dart';
 import 'package:tourism_app/core/utils/api_service.dart';
 import 'package:tourism_app/features/Country/presentation/views/widgets/AddPhotoContainer.dart';
 
@@ -24,7 +23,12 @@ class _SelectImageState extends State<SelectImage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _pickImage(),
+      onTap: () => pickImage(
+        onPhotoSelected: (value) => setState(() {
+          _webImage = value;
+          widget.onPhotoSelected(value);
+        }),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -51,25 +55,6 @@ class _SelectImageState extends State<SelectImage> {
       );
     } else {
       return const AddPhotoContainer();
-    }
-  }
-
-  Future<void> _pickImage() async {
-    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      if (kIsWeb) {
-        final bytes = await image.readAsBytes();
-        setState(() {
-          _webImage = bytes;
-        });
-        widget.onPhotoSelected(bytes);
-      } else {
-        setState(() {
-          _pickedImage = File(image.path);
-        });
-        widget.onPhotoSelected(_pickedImage);
-      }
     }
   }
 }

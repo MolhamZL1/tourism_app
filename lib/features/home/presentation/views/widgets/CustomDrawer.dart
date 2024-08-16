@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tourism_app/core/models/draweritemmodel.dart';
 import 'package:tourism_app/core/utils/api_service.dart';
 import 'package:tourism_app/core/utils/constants,.dart';
@@ -26,37 +27,40 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: const Color.fromARGB(255, 224, 224, 224),
       elevation: 0,
-      child: Column(
-        children: [
-          BlocBuilder<ProfileCubit, ProfileState>(
-            builder: (context, state) {
-              return state is ProfileSuccess
-                  ? DrawerHeader(
-                      child: Column(
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+                return DrawerHeader(
+                    child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Spacer(flex: 3),
-                            CircleAvatar(
-                              radius: 50,
-                              backgroundColor: kColor,
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(99),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        "${ApiService.baseURL}${state.dataUserModel.photo}",
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
+                        const Spacer(flex: 3),
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: kColor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(99),
+                              child: state is ProfileSuccess
+                                  ? CachedNetworkImage(
+                                      imageUrl:
+                                          "${ApiService.baseURL}${state.dataUserModel.photo}",
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : const SizedBox(),
                             ),
-                            const Spacer(flex: 2),
-                            IconButton(
+                          ),
+                        ),
+                        const Spacer(flex: 2),
+                        state is ProfileSuccess
+                            ? IconButton(
                                 onPressed: () => showDialog(
                                       context: context,
                                       builder: (_) => CustomShowProfileDailog(
@@ -64,32 +68,50 @@ class CustomDrawer extends StatelessWidget {
                                         viewContext: context,
                                       ),
                                     ),
-                                icon: const Icon(Icons.edit)),
-                          ],
-                        ),
-                        const Spacer(),
-                        Text(
-                            "${state.dataUserModel.firstName} ${state.dataUserModel.lastName}")
+                                icon: const Icon(Icons.edit))
+                            : state is ProfileLoading
+                                ? const Skeletonizer(child: Icon(Icons.edit))
+                                : const SizedBox(),
                       ],
-                    ))
-                  : SizedBox();
-            },
+                    ),
+                    const Spacer(),
+                    state is ProfileLoading
+                        ? const Skeletonizer(child: Text("molham sheikh"))
+                        : state is ProfileSuccess
+                            ? Text(
+                                "${state.dataUserModel.firstName} ${state.dataUserModel.lastName}")
+                            : const Text("")
+                  ],
+                ));
+              },
+            ),
           ),
           CustomDrawerList(
             destenations: destenations,
             selectedIndex: selectedIndex,
             onDestinationSelected: onDestinationSelected,
           ),
-          const Spacer(),
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (context) => const CustomLogOutDialog());
-            },
-            child: CustomDrawerItem(
-              drawerItemModel:
-                  DrawerItemModel(text: "L O G O U T", icon: Icons.logout),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              children: [
+                const Expanded(
+                    child: SizedBox(
+                  height: 20,
+                )),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => const CustomLogOutDialog());
+                  },
+                  child: CustomDrawerItem(
+                    drawerItemModel: DrawerItemModel(
+                        text: "L O G O U T", icon: Icons.logout),
+                    color: Colors.red,
+                  ),
+                ),
+              ],
             ),
           )
         ],

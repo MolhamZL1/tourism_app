@@ -34,7 +34,7 @@ class _CustomAddCountryDailogState extends State<CustomAddCountryDailog> {
     nameController.text =
         widget.countryModel?.name == null ? "" : widget.countryModel!.name!;
     rateController.text =
-        widget.countryModel?.rate == null ? "Low" : widget.countryModel!.rate!;
+        widget.countryModel?.rate == null ? "1" : widget.countryModel!.rate!;
     widget.countryModel != null ? EditCountryCubit.photo = null : null;
     super.initState();
   }

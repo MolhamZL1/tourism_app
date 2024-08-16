@@ -4,7 +4,11 @@ import 'package:tourism_app/features/Hotels/presentation/viewModel/HotelsCubit/h
 import 'package:tourism_app/features/Hotels/presentation/views/widgets/custom_ad_hotel_dialog.dart';
 import 'package:tourism_app/features/Hotels/presentation/views/widgets/hotelItem.dart';
 import '../../../../../core/widgets/AdditionContainer.dart';
+import '../../../../../core/widgets/CustomSearchBar.dart';
 import '../../../../../core/widgets/SliverImageError.dart';
+import '../../../../../core/widgets/SliverNotFoundImage.dart';
+import '../../../../../core/widgets/googleMapContainer.dart';
+import '../../../../../core/widgets/rippled_animation.dart';
 import '../../../../Country/presentation/viewModels/CountryCubit/country_cubit.dart';
 import '../../../../Country/presentation/views/widgets/SkeletonizerGrid.dart';
 
@@ -24,6 +28,7 @@ class _HotelsViewBodyState extends State<HotelsViewBody> {
     super.initState();
   }
 
+  int choosedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HotelsCubit, HotelsState>(
@@ -31,14 +36,29 @@ class _HotelsViewBodyState extends State<HotelsViewBody> {
         return CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: Visibility(
-                visible: state is! HotelsFailure,
-                child: Image.asset("images/undraw_Best_place_re_lne9.png",
-                    height: MediaQuery.of(context).size.height / 3,
-                    fit: BoxFit.scaleDown),
+              child: GoogleMapContainer(
+                x: state is HotelsSuccess
+                    ? state.hotels.isEmpty
+                        ? 2
+                        : state.hotels[choosedIndex].id!.toDouble()
+                    : 2,
+                y: state is HotelsSuccess
+                    ? state.hotels.isEmpty
+                        ? 2
+                        : state.hotels[choosedIndex].id!.toDouble()
+                    : 2,
               ),
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: 8)),
+            SliverToBoxAdapter(child: CustomSearchBar(
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  BlocProvider.of<HotelsCubit>(context).getHotels();
+                } else {
+                  BlocProvider.of<HotelsCubit>(context)
+                      .searchHotel(quary: value);
+                }
+              },
+            )),
             state is HotelsSuccess
                 ? SliverGrid.builder(
                     itemCount: state.hotels.length + 1,
@@ -46,28 +66,53 @@ class _HotelsViewBodyState extends State<HotelsViewBody> {
                         crossAxisCount:
                             MediaQuery.of(context).size.width < 900 ? 2 : 4,
                         mainAxisSpacing: 16),
-                    itemBuilder: (context, index) => index ==
-                            state.hotels.length
-                        ? AdditionContainer(
-                            ontap: () => showDialog(
-                              context: context,
-                              builder: (_) => CustomAddHotelDialog(
-                                viewContext: context,
-                              ),
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (_) => CustomAddHotelDialog(
-                                  viewContext: context,
-                                  hotelModel: state.hotels[index],
+                    itemBuilder: (context, index) =>
+                        index == state.hotels.length
+                            ? AdditionContainer(
+                                ontap: () => showDialog(
+                                  context: context,
+                                  builder: (_) => CustomAddHotelDialog(
+                                    viewContext: context,
+                                  ),
                                 ),
-                              );
-                            },
-                            child: HotelItem(hotelModel: state.hotels[index]),
-                          ),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => CustomAddHotelDialog(
+                                      viewContext: context,
+                                      hotelModel: state.hotels[index],
+                                    ),
+                                  );
+                                },
+                                child: Stack(children: [
+                                  HotelItem(hotelModel: state.hotels[index]),
+                                  Positioned(
+                                      top: 8,
+                                      right: 25,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            choosedIndex = index;
+                                          });
+                                        },
+                                        child: Container(
+                                          child: index == choosedIndex
+                                              ? const CustomRippledAnimation(
+                                                  icon: Icons.gps_fixed,
+                                                )
+                                              : const CircleAvatar(
+                                                  backgroundColor: Colors.white,
+                                                  child: Icon(
+                                                    Icons.gps_fixed,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                        ),
+                                      ))
+                                ]),
+                              ),
                   )
                 : state is HotelsLoading
                     ? const SkeletonizerGrid(
@@ -75,9 +120,11 @@ class _HotelsViewBodyState extends State<HotelsViewBody> {
                         mobile: 2,
                       )
                     : state is HotelsFailure
-                        ? SliverImageError(
-                            errMessage: state.errMessage,
-                          )
+                        ? state.errMessage == "Not Found"
+                            ? const SliverNotFoundImage()
+                            : SliverImageError(
+                                errMessage: state.errMessage,
+                              )
                         : const SliverToBoxAdapter(
                             child: SizedBox(),
                           ),

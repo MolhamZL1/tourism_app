@@ -7,9 +7,11 @@ class CustomDrawerItem extends StatelessWidget {
     super.key,
     required this.drawerItemModel,
     this.selected = false,
+    this.color,
   });
   final DrawerItemModel drawerItemModel;
   final bool selected;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,10 @@ class CustomDrawerItem extends StatelessWidget {
       selected: selected,
       selectedColor: Colors.white,
       selectedTileColor: kColor,
-      leading: Icon(drawerItemModel.icon),
+      leading: Icon(
+        drawerItemModel.icon,
+        color: color,
+      ),
       title: Padding(
         padding: const EdgeInsets.only(left: 16),
         child: FittedBox(

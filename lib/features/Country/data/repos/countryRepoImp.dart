@@ -98,4 +98,25 @@ class CountryRepoImp extends CountryRepo {
       return left(ServerFailure(errMessage: e.toString()));
     }
   }
+
+  @override
+  Future<Either<ServerFailure, List<ContryModel>>> searchCountries(
+      {required String text}) async {
+    try {
+      var data = await apiService.get(
+        //edit end point and add text
+        endPoint: "ReturnCountreyForAdmin",
+      );
+      List<ContryModel> countries = [];
+      for (var country in data["data"]) {
+        countries.add(ContryModel.fromJson(country));
+      }
+      return right(countries);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
 }

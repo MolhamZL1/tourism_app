@@ -11,8 +11,7 @@ class ApiService {
   Future<dynamic> get({required String endPoint}) async {
     var response = await dio.get("$baseURL/api/$endPoint",
         options: Options(headers: {
-          "Authorization":
-              "Bearer 1|MnQilmZvLVHxJTa6BCPTddKgtiGewiayI1UathsPba6b81ef"
+          "Authorization": "Bearer 1|c3cjo5Xh0jK5JWqtM5fVomn2UXNXUOrxjAemUcnh"
         }));
     return response.data;
   }
@@ -22,8 +21,7 @@ class ApiService {
     var response = await dio.post("$baseURL/api/$endPoint",
         data: body,
         options: Options(headers: {
-          "Authorization":
-              "Bearer 1|MnQilmZvLVHxJTa6BCPTddKgtiGewiayI1UathsPba6b81ef",
+          "Authorization": "Bearer 1|c3cjo5Xh0jK5JWqtM5fVomn2UXNXUOrxjAemUcnh",
         }));
     return response.data;
   }

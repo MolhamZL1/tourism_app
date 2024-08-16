@@ -35,37 +35,34 @@ class RatesCompaniesDialog extends StatelessWidget {
         CustomTextField(
           controller: nameController,
           labelText: "Company Name",
+          icon: Icons.airplanemode_active,
         ),
         CustomTextField(
           controller: locationController,
           labelText: "Company Location",
+          icon: Icons.location_on,
         ),
         CustomExpantionListTile(
             controller: countryController,
-            list: CountryCubit.bloccountries,
+            list: CountryCubit.bloccountriesNames,
             label: "Country"),
-        CustomTextField(
-          controller: descriptionController,
-          labelText: "Company Description",
-          maxLines: 5,
-        ),
-        ExpantionListRate(
+        StarsRatingBar(
           rateController: rateController,
           label: "Company Rate",
         ),
-        ExpantionListRate(
+        StarsRatingBar(
           rateController: foodRateController,
           label: "Food Rate",
         ),
-        ExpantionListRate(
+        StarsRatingBar(
           rateController: comfortRateController,
           label: "Comforte Rate",
         ),
-        ExpantionListRate(
+        StarsRatingBar(
           rateController: safeRateController,
           label: "Safety Rate",
         ),
-        ExpantionListRate(
+        StarsRatingBar(
           rateController: serviceRateController,
           label: "Service Rate",
         ),

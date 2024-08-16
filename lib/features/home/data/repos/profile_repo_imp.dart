@@ -37,14 +37,17 @@ class ProfileRepoImp extends ProfileRepo {
     Uint8List? photo,
   }) async {
     try {
-      await apiService.post(endPoint: "updateadminprofile", body: {
+      FormData formData = FormData.fromMap({
         "Firstname": dataUserModel?.firstName,
         "Lastname": dataUserModel?.lastName,
-        "visaphoto": photo,
+        "visaphoto": MultipartFile.fromBytes(
+          photo!, filename: 'photo.jpg', // Specify the filename if needed
+        ),
         "phone": dataUserModel?.phoneNumber,
         "email": dataUserModel?.email,
         "password": password
       });
+      await apiService.post(endPoint: "updateadminprofile", body: formData);
       return right("success");
     } catch (e) {
       if (e is DioException) {

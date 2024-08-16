@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:tourism_app/core/functions/buildContainerDecoratin.dart';
+import 'package:tourism_app/core/functions/build_container_decoratin.dart';
 import 'package:tourism_app/core/utils/api_service.dart';
 import 'package:tourism_app/features/Country/data/models/country_model.dart';
 import 'package:tourism_app/core/widgets/Rating.dart';
@@ -23,25 +23,20 @@ class CountryItem extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24)),
-                child: loading
-                    ? Image.asset(
-                        countryModel!.photo!,
-                        fit: BoxFit.cover,
-                      )
-                    : BackdropFilter(
-                        filter: ImageFilter.blur(tileMode: TileMode.mirror),
-                        child: CachedNetworkImage(
-                          imageUrl:
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24)),
+                    image: DecorationImage(
+                      image: loading
+                          ? AssetImage(
+                              countryModel!.photo!,
+                            )
+                          : CachedNetworkImageProvider(
                               "${ApiService.baseURL}${countryModel!.photo}",
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                            ) as ImageProvider,
+                    )),
               ),
             ),
             Padding(
@@ -51,13 +46,16 @@ class CountryItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        countryModel!.name!,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      Flexible(
+                        child: Text(
+                          countryModel!.name!,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ],
                   ),
-                  Rating(avarage: countryModel!.rate!),
+                  ShowRating(avarage: countryModel!.rate!),
                 ],
               ),
             )

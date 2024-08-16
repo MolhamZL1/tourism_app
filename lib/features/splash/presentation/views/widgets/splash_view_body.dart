@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tourism_app/core/functions/backGroundImage.dart';
+import 'package:tourism_app/core/functions/back_ground_image.dart';
 import 'package:tourism_app/core/shared/shared.dart';
 import 'package:tourism_app/core/utils/go_route.dart';
-import 'package:tourism_app/core/utils/user_info.dart';
 import 'package:tourism_app/features/splash/presentation/views/widgets/animated_image.dart';
 
 class SplashViewBody extends StatefulWidget {
@@ -41,11 +40,10 @@ class _SplashViewBodyState extends State<SplashViewBody>
   }
 
   Future<void> initnavigation() async {
-    await CacheNetwork.cacheInitialization();
-    UserInfo.token = await CacheNetwork.getCacheData(key: 'token');
+    String? token = await CacheNetwork.getCacheData(key: 'token');
     Future.delayed(
       const Duration(milliseconds: 3000),
-      () => UserInfo.token == null
+      () => token == null
           ? GoRouter.of(context).pushReplacement(Routes.kloginView)
           : GoRouter.of(context).pushReplacement(Routes.khomeView),
     );

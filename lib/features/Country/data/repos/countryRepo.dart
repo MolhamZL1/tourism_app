@@ -5,6 +5,8 @@ import 'package:tourism_app/features/Country/data/models/country_model.dart';
 
 abstract class CountryRepo {
   Future<Either<ServerFailure, List<ContryModel>>> getCountries();
+  Future<Either<ServerFailure, List<ContryModel>>> searchCountries(
+      {required String text});
 
   Future<Either<ServerFailure, String>> addCountry(
       {required String name, required String rate, required Uint8List photo});

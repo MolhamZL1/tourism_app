@@ -10,6 +10,11 @@ import 'package:tourism_app/features/Country/presentation/viewModels/CountryCubi
 import 'package:tourism_app/features/Hotels/data/repos/hotel_repo.dart';
 import 'package:tourism_app/features/Hotels/presentation/viewModel/EditHotelsCubit/edit_hotels_cubit.dart';
 import 'package:tourism_app/features/Hotels/presentation/viewModel/HotelsCubit/hotels_cubit.dart';
+import 'package:tourism_app/features/Resturants/data/repos/resturant_repo.dart';
+import 'package:tourism_app/features/Resturants/presentation/viewModel/ResturantsCubit/resturants_cubit.dart';
+import 'package:tourism_app/features/Users/data/repos/payment_repo.dart';
+import 'package:tourism_app/features/Users/presentation/viewModel/cubit/edit_user_cubit.dart';
+import 'package:tourism_app/features/Users/presentation/viewModel/cubit/users_cubit.dart';
 import 'package:tourism_app/features/Trips/data/repos/trips_repo.dart';
 import 'package:tourism_app/features/Trips/presentation/viewModels/tripCubit/trip_cubit.dart';
 import 'package:tourism_app/features/home/presentation/viewmodels/profilecubit/profile_cubit.dart';
@@ -55,6 +60,15 @@ class _HomeViewState extends State<HomeView> {
         ),
         BlocProvider(
           create: (context) => TripCubit(getIt.get<TripsRepo>()),
+        ),
+        BlocProvider(
+          create: (context) => UsersCubit(getIt.get<PaymentRepo>()),
+        ),
+        BlocProvider(
+          create: (context) => EditUserCubit(getIt.get<PaymentRepo>()),
+        ),
+        BlocProvider(
+          create: (context) => ResturantsCubit(getIt.get<ResturantRepo>()),
         ),
       ],
       child: Scaffold(

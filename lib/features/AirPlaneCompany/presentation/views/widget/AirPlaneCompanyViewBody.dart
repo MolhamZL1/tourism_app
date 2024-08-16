@@ -9,6 +9,9 @@ import 'package:tourism_app/features/AirPlaneCompany/presentation/views/widget/C
 import 'package:tourism_app/features/AirPlaneCompany/presentation/views/widget/SkeltonList.dart';
 import 'package:tourism_app/features/Country/presentation/viewModels/CountryCubit/country_cubit.dart';
 
+import '../../../../../core/widgets/CustomSearchBar.dart';
+import '../../../../../core/widgets/SliverNotFoundImage.dart';
+
 class AirPlaneCompanyViewBody extends StatefulWidget {
   const AirPlaneCompanyViewBody({super.key});
 
@@ -44,6 +47,22 @@ class _AirPlaneCompanyViewBodyState extends State<AirPlaneCompanyViewBody> {
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 8)),
+              SliverToBoxAdapter(
+                  child: Visibility(
+                visible: !(state is CompaniesFailure &&
+                    state.errMessage != "Not Found"),
+                child: CustomSearchBar(
+                  onChanged: (value) {
+                    if (value.isEmpty) {
+                      BlocProvider.of<CompaniesCubit>(context)
+                          .getAirPlaneCompanies();
+                    } else {
+                      BlocProvider.of<CompaniesCubit>(context)
+                          .searchAirPlaneCompany(quary: value);
+                    }
+                  },
+                ),
+              )),
               state is CompaniesLoading
                   ? const SkeltonList()
                   : state is CompaniesSuccess
@@ -64,9 +83,11 @@ class _AirPlaneCompanyViewBodyState extends State<AirPlaneCompanyViewBody> {
                                 ),
                         )
                       : state is CompaniesFailure
-                          ? SliverImageError(
-                              errMessage: state.errMessage,
-                            )
+                          ? state.errMessage == "Not Found"
+                              ? const SliverNotFoundImage()
+                              : SliverImageError(
+                                  errMessage: state.errMessage,
+                                )
                           : const SliverToBoxAdapter(
                               child: SizedBox(),
                             ),
