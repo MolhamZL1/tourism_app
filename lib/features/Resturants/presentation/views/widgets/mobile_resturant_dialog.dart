@@ -19,7 +19,12 @@ class MobileLayoutResturant extends StatelessWidget {
       required this.descriptionController,
       required this.locationController,
       required this.countryController,
-      required this.isFailure});
+      required this.isFailure,
+      required this.openingHoursController,
+      required this.closingHourController,
+      required this.phoneController,
+      required this.xController,
+      required this.yController});
   final ResturantModel? resturantModel;
   final TextEditingController nameController;
   final TextEditingController rateController;
@@ -30,6 +35,11 @@ class MobileLayoutResturant extends StatelessWidget {
   final TextEditingController descriptionController;
   final TextEditingController locationController;
   final TextEditingController countryController;
+  final TextEditingController openingHoursController;
+  final TextEditingController closingHourController;
+  final TextEditingController phoneController;
+  final TextEditingController xController;
+  final TextEditingController yController;
   final bool isFailure;
 
   @override
@@ -69,6 +79,8 @@ class MobileLayoutResturant extends StatelessWidget {
         ),
         RatesResturantDialog(
           nameController: nameController,
+          xController: xController,
+          yController: yController,
           descriptionController: descriptionController,
           locationController: locationController,
           rateController: rateController,
@@ -77,6 +89,9 @@ class MobileLayoutResturant extends StatelessWidget {
           safeRateController: safeRateController,
           serviceRateController: serviceRateController,
           countryController: countryController,
+          closingHourController: closingHourController,
+          openingHoursController: openingHoursController,
+          phoneController: phoneController,
         ),
       ],
     );

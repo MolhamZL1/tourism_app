@@ -2,13 +2,13 @@ import 'package:tourism_app/features/AirPlaneCompany/data/models/airPlaneCompany
 import 'package:tourism_app/features/Country/data/models/country_model.dart';
 
 class TripModel {
-  final int id;
-  final String tripPlace;
-  final String timeTrip;
-  final int price;
-  final ContryModel country;
-  final int amountPeople;
-  final AirPlaneCompanyModel company;
+  final int? id;
+  final String? tripPlace;
+  final String? timeTrip;
+  final int? price;
+  final ContryModel? country;
+  final int? amountPeople;
+  final AirPlaneCompanyModel? company;
 
   const TripModel({
     required this.amountPeople,
@@ -26,7 +26,11 @@ class TripModel {
         tripPlace: json['TripPlace'],
         timeTrip: json['TimeTrip'],
         price: json['Price'],
-        country: ContryModel.fromJson(json['country']),
-        company: AirPlaneCompanyModel.fromJson(json['company']),
+        country: json['country'] == null
+            ? null
+            : ContryModel.fromJson(json['country']),
+        company: json['company'] == null
+            ? null
+            : AirPlaneCompanyModel.fromJson(json['company']),
       );
 }

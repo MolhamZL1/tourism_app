@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:tourism_app/core/errors/failure.dart';
 import 'package:tourism_app/core/utils/api_service.dart';
+import 'package:tourism_app/features/Trips/data/models/bookmodel.dart';
 import 'package:tourism_app/features/Trips/data/models/trip_model.dart';
 import 'package:tourism_app/features/Trips/data/repos/trips_repo.dart';
 
@@ -93,6 +94,27 @@ class TripsRepoImp implements TripsRepo {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
       }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ServerFailure, List<Bookmodel>>> getBooks() async {
+    try {
+      var data = await apiService.get(
+        endPoint: "getuserstrip",
+      );
+      List<Bookmodel> books = [];
+      for (var book in data["data"]) {
+        print(data["data"][0]["trip"]);
+        books.add(Bookmodel.fromJson(book));
+      }
+      return right(books);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      print(e);
       return left(ServerFailure(errMessage: e.toString()));
     }
   }

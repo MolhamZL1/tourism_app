@@ -15,6 +15,8 @@ class HotelModel {
   final String? safe;
   final String? rate;
   final ContryModel? contrey;
+  final String? x;
+  final String? y;
 
   const HotelModel({
     this.id,
@@ -31,6 +33,8 @@ class HotelModel {
     this.safe,
     this.rate,
     this.contrey,
+    this.x,
+    this.y,
   });
 
   factory HotelModel.fromJson(Map<String, dynamic> data) => HotelModel(
@@ -47,6 +51,8 @@ class HotelModel {
         comforts: data['comforts'] as String?,
         safe: data['safe'] as String?,
         rate: data['Rate'] as String?,
+        x: data['x'].toString() as String?,
+        y: data['y'].toString() as String?,
         contrey: data['contrey'] == null
             ? null
             : ContryModel.fromJson(data['contrey'] as Map<String, dynamic>),

@@ -80,6 +80,7 @@ class _CountryViewBodyState extends State<CountryViewBody> {
                                 )
                               : GestureDetector(
                                   onTap: () {
+                                    print(state.countries[index].photo);
                                     showDialog(
                                       context: context,
                                       builder: (_) => CustomAddCountryDailog(

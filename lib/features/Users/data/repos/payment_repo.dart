@@ -6,6 +6,9 @@ import '../../../../core/errors/failure.dart';
 abstract class PaymentRepo {
   Future<Either<ServerFailure, List<UserModel>>> getUsers();
   Future<Either<ServerFailure, String>> chargeMoney(
-      {required double money, required int id, required String operationType});
+      {required double money,
+      int? id,
+      String? email,
+      required String operationType});
   Future<Either<ServerFailure, String>> deleteUser({required int id});
 }

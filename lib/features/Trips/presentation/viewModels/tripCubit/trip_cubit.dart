@@ -30,7 +30,7 @@ class TripCubit extends Cubit<TripState> {
     try {
       List<TripModel> result = [];
       for (var trip in blocTrips) {
-        if (trip.tripPlace.toLowerCase().contains(quary.toLowerCase())) {
+        if (trip.tripPlace!.toLowerCase().contains(quary.toLowerCase())) {
           result.add(trip);
         }
       }

@@ -5,7 +5,7 @@ class DataUserModel {
   final String? phoneNumber;
   final String? email;
 
-  DataUserModel(
+  const DataUserModel(
       {this.firstName,
       this.lastName,
       this.photo,

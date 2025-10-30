@@ -16,6 +16,8 @@ class RatesHotelsDialog extends StatelessWidget {
     required this.descriptionController,
     required this.locationController,
     required this.countryController,
+    required this.xController,
+    required this.yController,
   });
 
   final TextEditingController nameController;
@@ -27,6 +29,8 @@ class RatesHotelsDialog extends StatelessWidget {
   final TextEditingController safeRateController;
   final TextEditingController serviceRateController;
   final TextEditingController countryController;
+  final TextEditingController xController;
+  final TextEditingController yController;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +45,16 @@ class RatesHotelsDialog extends StatelessWidget {
           controller: locationController,
           labelText: "Hotel Location",
           icon: Icons.location_on,
+        ),
+        CustomTextField(
+          controller: xController,
+          labelText: "X coordinate on map",
+          icon: Icons.map,
+        ),
+        CustomTextField(
+          controller: yController,
+          labelText: "Y coordinate on map",
+          icon: Icons.map,
         ),
         CustomExpantionListTile(
             controller: countryController,

@@ -19,6 +19,8 @@ class ContentAddHotelDialog extends StatelessWidget {
     required this.locationController,
     this.isFailure = false,
     required this.countryController,
+    required this.xController,
+    required this.yController,
   });
 
   final GlobalKey<FormState> formKey;
@@ -32,6 +34,8 @@ class ContentAddHotelDialog extends StatelessWidget {
   final TextEditingController descriptionController;
   final TextEditingController locationController;
   final TextEditingController countryController;
+  final TextEditingController xController;
+  final TextEditingController yController;
 
   final bool isFailure;
 
@@ -57,6 +61,8 @@ class ContentAddHotelDialog extends StatelessWidget {
                   serviceRateController: serviceRateController,
                   hotelModel: hotelModel,
                   isFailure: isFailure,
+                  xController: xController,
+                  yController: yController,
                 )
               : MobileLayoutHotel(
                   comfortRateController: comfortRateController,
@@ -70,6 +76,8 @@ class ContentAddHotelDialog extends StatelessWidget {
                   serviceRateController: serviceRateController,
                   hotelModel: hotelModel,
                   isFailure: isFailure,
+                  xController: xController,
+                  yController: yController,
                 ),
         ),
       ),

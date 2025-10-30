@@ -16,13 +16,14 @@ class PaymentRepoImp extends PaymentRepo {
   @override
   Future<Either<ServerFailure, String>> chargeMoney(
       {required double money,
-      required int id,
+      int? id,
+      String? email,
       required String operationType}) async {
     try {
       await apiService.post(endPoint: "UpdateClientAccount", body: {
         "idaccount": id,
         "Balance": money,
-        "OperationType": operationType
+        "OperationType": operationType,
       });
 
       return right("success");

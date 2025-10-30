@@ -38,8 +38,16 @@ class _ResturantsViewBodyState extends State<ResturantsViewBody> {
           slivers: [
             SliverToBoxAdapter(
               child: GoogleMapContainer(
-                x: 2,
-                y: 2,
+                x: state is ResturantsSuccess
+                    ? state.restaurants.isEmpty
+                        ? 2
+                        : double.parse(state.restaurants[choosedIndex].x!)
+                    : 2,
+                y: state is ResturantsSuccess
+                    ? state.restaurants.isEmpty
+                        ? 2
+                        : double.parse(state.restaurants[choosedIndex].y!)
+                    : 2,
               ),
             ),
             SliverToBoxAdapter(child: CustomSearchBar(

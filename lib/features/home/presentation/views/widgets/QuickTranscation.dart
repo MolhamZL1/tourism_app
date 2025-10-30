@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tourism_app/core/utils/constants,.dart';
+import 'package:tourism_app/core/widgets/custom_circle_loading.dart';
+import 'package:tourism_app/features/Users/presentation/viewModel/cubit/edit_user_cubit.dart';
+import 'package:tourism_app/features/home/data/models/data_user_model.dart';
 
 import '../../../../../core/functions/build_container_decoratin.dart';
 import '../../../../../core/widgets/CustomTextField.dart';
 import '../../../../Auth/presentation/views/widgets/customButton.dart';
 import 'PaymentWaySwitcher.dart';
+import 'UsersList.dart';
 
-class QuickTranscation extends StatelessWidget {
+class QuickTranscation extends StatefulWidget {
   const QuickTranscation({super.key});
+
+  @override
+  State<QuickTranscation> createState() => _QuickTranscationState();
+}
+
+class _QuickTranscationState extends State<QuickTranscation> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
+  TextEditingController operationController = TextEditingController();
+  @override
+  void initState() {
+    operationController.text = "Fill";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,47 +38,51 @@ class QuickTranscation extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Quick Invoice",
+            "Quick Charge",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           const SizedBox(height: 24),
-          const Text("Latest Transcation"),
+          const Text("Latest Charging"),
           const SizedBox(
             height: 16,
           ),
-          SingleChildScrollView(
+          const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                  5,
-                  (index) => Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(.1),
-                        borderRadius: BorderRadius.circular(16)),
-                    child: IntrinsicWidth(
-                      child: ListTile(
-                        title: const Text("Molham alshiekh"),
-                        subtitle: const Text("molhamsa49@gmail.com"),
-                        leading: Container(
-                          width: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(99),
-                              image: const DecorationImage(
-                                  image: AssetImage("images/earth.png")),
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+              child: UsersList(
+                dataUserModel: [
+                  DataUserModel(
+                      email: "molhamsa49@gmail.com",
+                      firstName: "Molham",
+                      lastName: "Al-Sheikh",
+                      photo: "/storage/66c00112d9e12.jpg"),
+                  DataUserModel(
+                      email: "molhamsa49@gmail.com",
+                      firstName: "Molham",
+                      lastName: "Al-Sheikh",
+                      photo: "/storage/66c00112d9e12.jpg"),
+                  DataUserModel(
+                      email: "molhamsa49@gmail.com",
+                      firstName: "Molham",
+                      lastName: "Al-Sheikh",
+                      photo: "/storage/66c00112d9e12.jpg"),
+                  DataUserModel(
+                      email: "molhamsa49@gmail.com",
+                      firstName: "Molham",
+                      lastName: "Al-Sheikh",
+                      photo: "/storage/66c00112d9e12.jpg"),
+                  DataUserModel(
+                      email: "molhamsa49@gmail.com",
+                      firstName: "Molham",
+                      lastName: "Al-Sheikh",
+                      photo: "/storage/66c00112d9e12.jpg"),
+                ],
               )),
           Row(
             children: [
               Expanded(
                 child: CustomTextField(
                   labelText: "Customer Email",
-                  controller: TextEditingController(),
+                  controller: emailController,
                   icon: Icons.email,
                 ),
               ),
@@ -66,7 +90,7 @@ class QuickTranscation extends StatelessWidget {
               Expanded(
                 child: CustomTextField(
                   labelText: "Amount",
-                  controller: TextEditingController(),
+                  controller: amountController,
                   icon: Icons.attach_money_outlined,
                   keyboardType: TextInputType.number,
                 ),
@@ -75,13 +99,30 @@ class QuickTranscation extends StatelessWidget {
           ),
           Row(
             children: [
-              const Expanded(child: PaymentWaySwitcher()),
+              Expanded(
+                  child: PaymentWaySwitcher(
+                operationController: operationController,
+              )),
               const SizedBox(width: 16),
               Expanded(
-                  child: CustomButton(
-                text: "Send",
-                onTap: () {},
-                circular: 16,
+                  child: BlocConsumer<EditUserCubit, EditUserState>(
+                listener: (context, state) {
+                  state is EditUserFailure ? print(state.errMessage) : null;
+                },
+                builder: (context, state) {
+                  return state is EditUserLoading
+                      ? const CustomCircleLoading(color: kColor)
+                      : CustomButton(
+                          text: "Send",
+                          onTap: () {
+                            BlocProvider.of<EditUserCubit>(context).chargeMoney(
+                                money: double.parse(amountController.text),
+                                email: emailController.text,
+                                operationType: operationController.text);
+                          },
+                          circular: 16,
+                        );
+                },
               )),
             ],
           )

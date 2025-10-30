@@ -18,7 +18,9 @@ class MobileLayoutHotel extends StatelessWidget {
       required this.descriptionController,
       required this.locationController,
       required this.countryController,
-      required this.isFailure});
+      required this.isFailure,
+      required this.xController,
+      required this.yController});
   final HotelModel? hotelModel;
   final TextEditingController nameController;
   final TextEditingController rateController;
@@ -29,6 +31,8 @@ class MobileLayoutHotel extends StatelessWidget {
   final TextEditingController descriptionController;
   final TextEditingController locationController;
   final TextEditingController countryController;
+  final TextEditingController xController;
+  final TextEditingController yController;
   final bool isFailure;
 
   @override
@@ -112,6 +116,8 @@ class MobileLayoutHotel extends StatelessWidget {
           safeRateController: safeRateController,
           serviceRateController: serviceRateController,
           countryController: countryController,
+          xController: xController,
+          yController: yController,
         ),
       ],
     );

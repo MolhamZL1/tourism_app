@@ -21,7 +21,7 @@ class _TripItemState extends State<TripItem> {
   @override
   void initState() {
     time = DateFormatter.formatDateTime(
-        dateTime: DateTime.parse(widget.tripModel.timeTrip),
+        dateTime: DateTime.parse(widget.tripModel.timeTrip!),
         outputFormat: 'yyyy/MM/dd');
     super.initState();
   }
@@ -41,12 +41,12 @@ class _TripItemState extends State<TripItem> {
                     topRight: Radius.circular(24)),
                 child: widget.loading
                     ? Image.asset(
-                        widget.tripModel.country.photo!,
+                        widget.tripModel.country!.photo!,
                         fit: BoxFit.cover,
                       )
                     : CachedNetworkImage(
                         imageUrl:
-                            "${ApiService.baseURL}${widget.tripModel.country.photo}",
+                            "${ApiService.baseURL}${widget.tripModel.country!.photo}",
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                         fit: BoxFit.cover,
@@ -61,7 +61,7 @@ class _TripItemState extends State<TripItem> {
                   FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      "${widget.tripModel.tripPlace} (${widget.tripModel.country.name})",
+                      "${widget.tripModel.tripPlace} (${widget.tripModel.country!.name})",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),

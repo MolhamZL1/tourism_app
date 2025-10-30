@@ -15,7 +15,7 @@ abstract class Routes {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const HomeView(),
+        builder: (context, state) => const SplashView(),
       ),
       GoRoute(
         path: khomeView,

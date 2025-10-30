@@ -9,6 +9,8 @@ import 'package:tourism_app/features/Trips/presentation/viewModels/edit_trip_cub
 import 'package:tourism_app/features/Trips/presentation/viewModels/tripCubit/trip_cubit.dart';
 import 'package:tourism_app/features/Trips/presentation/views/widgets/contentAddTripDialog.dart';
 
+import '../../viewModels/books_cubit/books_cubit_cubit.dart';
+
 class CustomAddTripDialog extends StatefulWidget {
   const CustomAddTripDialog({super.key, this.tripModel, this.viewContext});
   final TripModel? tripModel;
@@ -30,18 +32,19 @@ class _CustomAddTripDialogState extends State<CustomAddTripDialog> {
   @override
   void initState() {
     if (widget.tripModel?.tripPlace != null) {
-      placeController.text = widget.tripModel!.tripPlace;
+      placeController.text = widget.tripModel!.tripPlace!;
       priceController.text = widget.tripModel!.price.toString();
       amountPeopleController.text = widget.tripModel!.amountPeople.toString();
-      timeController.text = widget.tripModel!.timeTrip;
-      companyAilLinesController.text = widget.tripModel!.company.name;
-      countryController.text = widget.tripModel!.country.name!;
-      placeController.text = widget.tripModel!.tripPlace;
+      timeController.text = widget.tripModel!.timeTrip!;
+      companyAilLinesController.text = widget.tripModel!.company!.name!;
+      countryController.text = widget.tripModel!.country!.name!;
+      placeController.text = widget.tripModel!.tripPlace!;
       priceController.text = widget.tripModel!.price.toString();
       amountPeopleController.text = widget.tripModel!.amountPeople.toString();
-      timeController.text = widget.tripModel!.timeTrip;
-      companyAilLinesController.text = widget.tripModel!.company.name;
-      countryController.text = widget.tripModel!.country.name!;
+      timeController.text = widget.tripModel!.timeTrip!;
+      companyAilLinesController.text = widget.tripModel!.company!.name!;
+      countryController.text = widget.tripModel!.country!.name!;
+      BlocProvider.of<BooksCubitCubit>(context).getTrips(widget.tripModel!.id!);
     }
 
     super.initState();
@@ -56,7 +59,7 @@ class _CustomAddTripDialogState extends State<CustomAddTripDialog> {
         title: Text(
             widget.tripModel?.tripPlace == null
                 ? "Add New Trip"
-                : widget.tripModel!.tripPlace,
+                : widget.tripModel!.tripPlace!,
             style: const TextStyle(fontSize: 24)),
         content: ContentAddTripDialog(
           placeController: placeController,
@@ -85,7 +88,7 @@ class _CustomAddTripDialogState extends State<CustomAddTripDialog> {
                       child: TextButton(
                           onPressed: () =>
                               BlocProvider.of<EditTripCubit>(context)
-                                  .deleteTrip(id: widget.tripModel!.id),
+                                  .deleteTrip(id: widget.tripModel!.id!),
                           child: const Text(
                             "Delete",
                             style: TextStyle(color: Colors.red),
@@ -120,7 +123,7 @@ class _CustomAddTripDialogState extends State<CustomAddTripDialog> {
                                             time: timeController.text)
                                     : BlocProvider.of<EditTripCubit>(context)
                                         .updateTrip(
-                                            id: widget.tripModel!.id,
+                                            id: widget.tripModel!.id!,
                                             price:
                                                 int.parse(priceController.text),
                                             amountPeople: int.parse(

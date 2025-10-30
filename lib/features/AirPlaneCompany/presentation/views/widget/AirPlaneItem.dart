@@ -33,7 +33,7 @@ class _AirPlaneItemState extends State<AirPlaneItem> {
               borderRadius: BorderRadius.circular(99),
               image: DecorationImage(
                 image: widget.loading
-                    ? AssetImage(widget.airPlaneCompanyModel.photo)
+                    ? AssetImage(widget.airPlaneCompanyModel.photo!)
                     : CachedNetworkImageProvider(
                             "${ApiService.baseURL}${widget.airPlaneCompanyModel.photo}")
                         as ImageProvider,
@@ -49,12 +49,12 @@ class _AirPlaneItemState extends State<AirPlaneItem> {
             borderRadius: BorderRadius.all(Radius.circular(8))),
         title: Row(
           children: [
-            Text(widget.airPlaneCompanyModel.name),
+            Text(widget.airPlaneCompanyModel.name!),
             const Spacer(),
             IconButton(
               onPressed: () => {
                 BlocProvider.of<EditCompanyCubit>(context)
-                    .deleteCompany(id: widget.airPlaneCompanyModel.id),
+                    .deleteCompany(id: widget.airPlaneCompanyModel.id!),
                 BlocProvider.of<CompaniesCubit>(context).getAirPlaneCompanies(),
               },
               icon: const Icon(Icons.delete),
@@ -83,9 +83,9 @@ class _AirPlaneItemState extends State<AirPlaneItem> {
                     const Icon(Icons.location_on, color: Colors.green),
                     const SizedBox(width: 4),
                     Text(
-                        "${widget.airPlaneCompanyModel.location}(${widget.airPlaneCompanyModel.country.name})"),
+                        "${widget.airPlaneCompanyModel.location}(${widget.airPlaneCompanyModel.country!.name})"),
                     const SizedBox(width: 24),
-                    ShowRating(avarage: widget.airPlaneCompanyModel.rate),
+                    ShowRating(avarage: widget.airPlaneCompanyModel.rate!),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -93,7 +93,7 @@ class _AirPlaneItemState extends State<AirPlaneItem> {
                   children: [
                     const Icon(Icons.food_bank_outlined, color: Colors.grey),
                     const SizedBox(width: 4),
-                    ShowRating(avarage: widget.airPlaneCompanyModel.food),
+                    ShowRating(avarage: widget.airPlaneCompanyModel.food!),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -101,7 +101,7 @@ class _AirPlaneItemState extends State<AirPlaneItem> {
                   children: [
                     const Icon(Icons.safety_check, color: Colors.red),
                     const SizedBox(width: 4),
-                    ShowRating(avarage: widget.airPlaneCompanyModel.safe),
+                    ShowRating(avarage: widget.airPlaneCompanyModel.safe!),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -109,7 +109,7 @@ class _AirPlaneItemState extends State<AirPlaneItem> {
                   children: [
                     const Icon(Icons.chair, color: Colors.black),
                     const SizedBox(width: 4),
-                    ShowRating(avarage: widget.airPlaneCompanyModel.comforts),
+                    ShowRating(avarage: widget.airPlaneCompanyModel.comforts!),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -117,7 +117,7 @@ class _AirPlaneItemState extends State<AirPlaneItem> {
                     style: TextStyle(color: Colors.grey)),
                 Padding(
                   padding: const EdgeInsets.only(left: 24),
-                  child: Text(widget.airPlaneCompanyModel.description),
+                  child: Text(widget.airPlaneCompanyModel.description!),
                 )
               ],
             ),

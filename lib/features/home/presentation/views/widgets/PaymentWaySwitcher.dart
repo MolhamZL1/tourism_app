@@ -4,7 +4,8 @@ import '../../../../../core/utils/constants,.dart';
 import 'PaymentWayItem.dart';
 
 class PaymentWaySwitcher extends StatefulWidget {
-  const PaymentWaySwitcher({super.key});
+  const PaymentWaySwitcher({super.key, required this.operationController});
+  final TextEditingController operationController;
 
   @override
   State<PaymentWaySwitcher> createState() => _PaymentWaySwitcherState();
@@ -28,6 +29,7 @@ class _PaymentWaySwitcherState extends State<PaymentWaySwitcher> {
                       ? setState(() {
                           isFillSelected = !isFillSelected;
                           ismSelected = !ismSelected;
+                          widget.operationController.text = "Fill";
                         })
                       : null,
                   child: PaymentWayItem(
@@ -40,6 +42,7 @@ class _PaymentWaySwitcherState extends State<PaymentWaySwitcher> {
                       ? setState(() {
                           ismSelected = !ismSelected;
                           isFillSelected = !isFillSelected;
+                          widget.operationController.text = "WithDraw";
                         })
                       : null,
                   child: PaymentWayItem(

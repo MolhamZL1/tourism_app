@@ -19,12 +19,13 @@ class EditUserCubit extends Cubit<EditUserState> {
   }
 
   Future<void> chargeMoney(
-      {required int id,
+      {int? id,
       required double money,
+      String? email,
       required String operationType}) async {
     emit(EditUserLoading());
     var result = await paymentRepo.chargeMoney(
-        id: id, money: money, operationType: operationType);
+        email: email, id: id, money: money, operationType: operationType);
     result.fold(
       (failure) => emit(EditUserFailure(errMessage: failure.errMessage)),
       (success) {

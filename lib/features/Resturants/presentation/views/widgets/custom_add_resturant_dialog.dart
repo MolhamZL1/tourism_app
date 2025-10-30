@@ -34,6 +34,12 @@ class _CustomAddResturantDialogState extends State<CustomAddResturantDialog> {
   final TextEditingController safeRateController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
+  final TextEditingController openingHoursController = TextEditingController();
+  final TextEditingController closingHourController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController xController = TextEditingController();
+  final TextEditingController yController = TextEditingController();
+
   final GlobalKey<FormState> formKey = GlobalKey();
   bool isFailure = false;
 
@@ -51,6 +57,11 @@ class _CustomAddResturantDialogState extends State<CustomAddResturantDialog> {
       serviceRateController.text = widget.resturantModel!.service!;
       comfortRateController.text = widget.resturantModel!.comforts!;
       safeRateController.text = widget.resturantModel!.safe!;
+      phoneController.text = widget.resturantModel!.phoneOfRestaurant!;
+      openingHoursController.text = widget.resturantModel!.openingHours!;
+      closingHourController.text = widget.resturantModel!.closingHours!;
+      xController.text = widget.resturantModel!.x!;
+      yController.text = widget.resturantModel!.y!;
     } else {
       rateController.text = "1";
       foodRateController.text = "1";
@@ -85,6 +96,11 @@ class _CustomAddResturantDialogState extends State<CustomAddResturantDialog> {
           serviceRateController: serviceRateController,
           isFailure: isFailure,
           countryController: countryController,
+          closingHourController: closingHourController,
+          openingHoursController: openingHoursController,
+          phoneController: phoneController,
+          xController: xController,
+          yController: yController,
         ),
         actions: [
           BlocConsumer<EditResturantCubit, EditResturantState>(
@@ -146,31 +162,41 @@ class _CustomAddResturantDialogState extends State<CustomAddResturantDialog> {
                                                 safe: safeRateController.text,
                                                 service:
                                                     serviceRateController.text,
+                                                closingHours:
+                                                    closingHourController.text,
+                                                openingHours:
+                                                    openingHoursController.text,
+                                                phoneOfRestaurant:
+                                                    phoneController.text,
+                                                x: xController.text,
+                                                y: yController.text,
                                                 contrey: ContryModel(
                                                     name: countryController
                                                         .text)))
                                         : setState(() {
                                             isFailure = true;
                                           })
-                                    : BlocProvider.of<EditResturantCubit>(context)
-                                        .updateResturant(
-                                            resturantModel: ResturantModel(
-                                                id: widget.resturantModel!.id,
-                                                restaurantName:
-                                                    nameController.text,
-                                                rate: rateController.text,
-                                                comforts:
-                                                    comfortRateController.text,
-                                                description:
-                                                    descriptionController.text,
-                                                food: foodRateController.text,
-                                                location:
-                                                    locationController.text,
-                                                safe: safeRateController.text,
-                                                service:
-                                                    serviceRateController.text,
-                                                contrey:
-                                                    ContryModel(name: countryController.text)))
+                                    : BlocProvider.of<EditResturantCubit>(context).updateResturant(
+                                        resturantModel: ResturantModel(
+                                            id: widget.resturantModel!.id,
+                                            restaurantName: nameController.text,
+                                            rate: rateController.text,
+                                            comforts:
+                                                comfortRateController.text,
+                                            description:
+                                                descriptionController.text,
+                                            food: foodRateController.text,
+                                            location: locationController.text,
+                                            safe: safeRateController.text,
+                                            service: serviceRateController.text,
+                                            closingHours:
+                                                closingHourController.text,
+                                            openingHours:
+                                                openingHoursController.text,
+                                            phoneOfRestaurant: phoneController.text,
+                                            x: xController.text,
+                                            y: yController.text,
+                                            contrey: ContryModel(name: countryController.text)))
                                 : null,
                             style: const ButtonStyle(
                                 backgroundColor:

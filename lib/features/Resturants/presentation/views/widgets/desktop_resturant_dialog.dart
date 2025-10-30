@@ -19,7 +19,12 @@ class DesktoplayoutResturant extends StatelessWidget {
       required this.descriptionController,
       required this.locationController,
       required this.countryController,
-      required this.isFailure});
+      required this.isFailure,
+      required this.openingHoursController,
+      required this.closingHourController,
+      required this.phoneController,
+      required this.xController,
+      required this.yController});
   final ResturantModel? resturantModel;
   final TextEditingController nameController;
   final TextEditingController rateController;
@@ -30,6 +35,11 @@ class DesktoplayoutResturant extends StatelessWidget {
   final TextEditingController descriptionController;
   final TextEditingController locationController;
   final TextEditingController countryController;
+  final TextEditingController openingHoursController;
+  final TextEditingController closingHourController;
+  final TextEditingController phoneController;
+  final TextEditingController xController;
+  final TextEditingController yController;
   final bool isFailure;
 
   @override
@@ -82,6 +92,11 @@ class DesktoplayoutResturant extends StatelessWidget {
                 safeRateController: safeRateController,
                 serviceRateController: serviceRateController,
                 countryController: countryController,
+                closingHourController: closingHourController,
+                openingHoursController: openingHoursController,
+                phoneController: phoneController,
+                xController: xController,
+                yController: yController,
               ),
             ),
           ),

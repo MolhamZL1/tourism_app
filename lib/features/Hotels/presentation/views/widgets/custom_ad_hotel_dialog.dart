@@ -33,6 +33,9 @@ class _CustomAddHotelDialogState extends State<CustomAddHotelDialog> {
   final TextEditingController safeRateController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
+  final TextEditingController xController = TextEditingController();
+  final TextEditingController yController = TextEditingController();
+
   final GlobalKey<FormState> formKey = GlobalKey();
   bool isFailure = false;
 
@@ -52,6 +55,8 @@ class _CustomAddHotelDialogState extends State<CustomAddHotelDialog> {
       serviceRateController.text = widget.hotelModel!.service!;
       comfortRateController.text = widget.hotelModel!.comforts!;
       safeRateController.text = widget.hotelModel!.safe!;
+      xController.text = widget.hotelModel!.x!;
+      yController.text = widget.hotelModel!.y!;
     } else {
       rateController.text = "1";
       foodRateController.text = "1";
@@ -86,6 +91,8 @@ class _CustomAddHotelDialogState extends State<CustomAddHotelDialog> {
           serviceRateController: serviceRateController,
           isFailure: isFailure,
           countryController: countryController,
+          xController: xController,
+          yController: yController,
         ),
         actions: [
           BlocConsumer<EditHotelsCubit, EditHotelsState>(
@@ -154,6 +161,8 @@ class _CustomAddHotelDialogState extends State<CustomAddHotelDialog> {
                                                 safe: safeRateController.text,
                                                 service:
                                                     serviceRateController.text,
+                                                x: xController.text,
+                                                y: yController.text,
                                                 contrey: ContryModel(
                                                     name: countryController
                                                         .text)))
@@ -173,6 +182,8 @@ class _CustomAddHotelDialogState extends State<CustomAddHotelDialog> {
                                             location: locationController.text,
                                             safe: safeRateController.text,
                                             service: serviceRateController.text,
+                                            x: xController.text,
+                                            y: yController.text,
                                             contrey: ContryModel(
                                                 name: countryController.text)))
                                 : null,

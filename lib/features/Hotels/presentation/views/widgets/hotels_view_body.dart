@@ -40,12 +40,12 @@ class _HotelsViewBodyState extends State<HotelsViewBody> {
                 x: state is HotelsSuccess
                     ? state.hotels.isEmpty
                         ? 2
-                        : state.hotels[choosedIndex].id!.toDouble()
+                        : double.parse(state.hotels[choosedIndex].x!)
                     : 2,
                 y: state is HotelsSuccess
                     ? state.hotels.isEmpty
                         ? 2
-                        : state.hotels[choosedIndex].id!.toDouble()
+                        : double.parse(state.hotels[choosedIndex].y!)
                     : 2,
               ),
             ),

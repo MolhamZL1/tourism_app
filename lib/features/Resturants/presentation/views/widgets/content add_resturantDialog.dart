@@ -19,6 +19,11 @@ class ContentAddResturantDialog extends StatelessWidget {
     required this.locationController,
     this.isFailure = false,
     required this.countryController,
+    required this.openingHoursController,
+    required this.closingHourController,
+    required this.phoneController,
+    required this.xController,
+    required this.yController,
   });
 
   final GlobalKey<FormState> formKey;
@@ -32,6 +37,11 @@ class ContentAddResturantDialog extends StatelessWidget {
   final TextEditingController descriptionController;
   final TextEditingController locationController;
   final TextEditingController countryController;
+  final TextEditingController openingHoursController;
+  final TextEditingController closingHourController;
+  final TextEditingController phoneController;
+  final TextEditingController xController;
+  final TextEditingController yController;
 
   final bool isFailure;
 
@@ -56,7 +66,12 @@ class ContentAddResturantDialog extends StatelessWidget {
                   safeRateController: safeRateController,
                   serviceRateController: serviceRateController,
                   resturantModel: resturantModel,
+                  closingHourController: closingHourController,
+                  openingHoursController: openingHoursController,
+                  phoneController: phoneController,
                   isFailure: isFailure,
+                  xController: xController,
+                  yController: yController,
                 )
               : MobileLayoutResturant(
                   comfortRateController: comfortRateController,
@@ -69,7 +84,12 @@ class ContentAddResturantDialog extends StatelessWidget {
                   safeRateController: safeRateController,
                   serviceRateController: serviceRateController,
                   resturantModel: resturantModel,
+                  closingHourController: closingHourController,
+                  openingHoursController: openingHoursController,
+                  phoneController: phoneController,
                   isFailure: isFailure,
+                  xController: xController,
+                  yController: yController,
                 ),
         ),
       ),

@@ -20,6 +20,8 @@ class HotelRepoImp extends HotelRepo {
     try {
       FormData formData = FormData.fromMap({
         "name": hotelModel.name,
+        "x": double.tryParse(hotelModel.x!),
+        "y": double.tryParse(hotelModel.y!),
         "location": hotelModel.location,
         "description": hotelModel.description,
         "Basicphoto": MultipartFile.fromBytes(
@@ -101,6 +103,8 @@ class HotelRepoImp extends HotelRepo {
     try {
       FormData formData = FormData.fromMap({
         "IdOfHotel": hotelModel?.id,
+        "x": double.tryParse(hotelModel?.x ?? ""),
+        "y": double.tryParse(hotelModel?.y ?? ""),
         "name": hotelModel?.name,
         "location": hotelModel?.location,
         "description": hotelModel?.description,
@@ -136,6 +140,7 @@ class HotelRepoImp extends HotelRepo {
               ),
       });
       await apiService.post(endPoint: "updateHotel", body: formData);
+
       return right("success");
     } catch (e) {
       if (e is DioException) {

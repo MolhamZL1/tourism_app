@@ -18,48 +18,51 @@ class CountryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: buildContainerDecoration(),
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24)),
-                    image: DecorationImage(
-                      image: loading
-                          ? AssetImage(
-                              countryModel!.photo!,
-                            )
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: buildContainerDecoration(),
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+                image: DecorationImage(
+                  image:
+                      loading
+                          ? AssetImage(countryModel!.photo!)
                           : CachedNetworkImageProvider(
-                              "${ApiService.baseURL}${countryModel!.photo}",
-                            ) as ImageProvider,
-                    )),
+                                "${ApiService.baseURL}${countryModel!.photo}",
+                              )
+                              as ImageProvider,
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          countryModel!.name!,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        countryModel!.name!,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    ],
-                  ),
-                  ShowRating(avarage: countryModel!.rate!),
-                ],
-              ),
-            )
-          ],
-        ));
+                    ),
+                  ],
+                ),
+                ShowRating(avarage: countryModel!.rate!),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

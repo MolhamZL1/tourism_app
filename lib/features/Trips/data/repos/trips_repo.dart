@@ -2,8 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:tourism_app/core/errors/failure.dart';
 import 'package:tourism_app/features/Trips/data/models/trip_model.dart';
 
+import '../models/bookmodel.dart';
+
 abstract class TripsRepo {
   Future<Either<ServerFailure, List<TripModel>>> getTrips();
+  Future<Either<ServerFailure, List<Bookmodel>>> getBooks();
+
   Future<Either<ServerFailure, String>> addTrip(
       {required String place,
       required String time,

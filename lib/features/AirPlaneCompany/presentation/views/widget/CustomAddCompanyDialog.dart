@@ -40,15 +40,15 @@ class _CustomAddCompanyDialogState extends State<CustomAddCompanyDialog> {
     super.initState();
     EditCompanyCubit.photo = null;
     if (widget.companyModel != null) {
-      nameController.text = widget.companyModel!.name;
-      descriptionController.text = widget.companyModel!.description;
-      locationController.text = widget.companyModel!.location;
-      rateController.text = widget.companyModel!.rate;
-      foodRateController.text = widget.companyModel!.food;
-      serviceRateController.text = widget.companyModel!.service;
-      comfortRateController.text = widget.companyModel!.comforts;
-      safeRateController.text = widget.companyModel!.safe;
-      countryController.text = widget.companyModel!.country.name ?? "";
+      nameController.text = widget.companyModel!.name!;
+      descriptionController.text = widget.companyModel!.description!;
+      locationController.text = widget.companyModel!.location!;
+      rateController.text = widget.companyModel!.rate!;
+      foodRateController.text = widget.companyModel!.food!;
+      serviceRateController.text = widget.companyModel!.service!;
+      comfortRateController.text = widget.companyModel!.comforts!;
+      safeRateController.text = widget.companyModel!.safe!;
+      countryController.text = widget.companyModel!.country!.name ?? "";
     } else {
       rateController.text = "1";
       foodRateController.text = "1";
@@ -67,7 +67,7 @@ class _CustomAddCompanyDialogState extends State<CustomAddCompanyDialog> {
         title: Text(
           widget.companyModel?.name == null
               ? "Add New Company"
-              : widget.companyModel!.name,
+              : widget.companyModel!.name!,
           style: const TextStyle(fontSize: 24),
         ),
         content: ContentAddCompanyDialog(
@@ -140,7 +140,7 @@ class _CustomAddCompanyDialogState extends State<CustomAddCompanyDialog> {
                                   } else {
                                     BlocProvider.of<EditCompanyCubit>(context)
                                         .updateCompany(
-                                      id: widget.companyModel!.id,
+                                      id: widget.companyModel!.id!,
                                       name: nameController.text,
                                       rate: rateController.text,
                                       comforts: comfortRateController.text,

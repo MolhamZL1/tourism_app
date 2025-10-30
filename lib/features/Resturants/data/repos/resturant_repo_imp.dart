@@ -18,6 +18,8 @@ class ResturantRepoImp extends ResturantRepo {
     try {
       FormData formData = FormData.fromMap({
         "RestaurantName": resturantModel.restaurantName,
+        "x": double.tryParse(resturantModel.x!),
+        "y": double.tryParse(resturantModel.y!),
         "location": resturantModel.location,
         "PhoneOFRestaurant": resturantModel.phoneOfRestaurant,
         "description": resturantModel.description,
@@ -31,7 +33,7 @@ class ResturantRepoImp extends ResturantRepo {
         "Rate": resturantModel.rate,
         "nameOfCountry": resturantModel.contrey!.name,
         "opening_hours": resturantModel.openingHours,
-        "": resturantModel.closingHours,
+        "closing_hours": resturantModel.closingHours,
       });
       await apiService.post(endPoint: "inputrestaurant", body: formData);
 
@@ -85,10 +87,14 @@ class ResturantRepoImp extends ResturantRepo {
       required Uint8List? photo}) async {
     try {
       FormData formData = FormData.fromMap({
-        "name": resturantModel?.restaurantName,
+        "idrestaurant": resturantModel?.id,
+        "x": double.tryParse(resturantModel?.x ?? ""),
+        "y": double.tryParse(resturantModel?.y ?? ""),
+        "RestaurantName": resturantModel?.restaurantName,
         "location": resturantModel?.location,
+        "PhoneOFRestaurant": resturantModel?.phoneOfRestaurant,
         "description": resturantModel?.description,
-        "Basicphoto": photo == null
+        "photo": photo == null
             ? null
             : MultipartFile.fromBytes(
                 photo, filename: 'photo1.jpg', // Specify the filename if needed
@@ -98,7 +104,9 @@ class ResturantRepoImp extends ResturantRepo {
         "comforts": resturantModel?.comforts,
         "safe": resturantModel?.safe,
         "Rate": resturantModel?.rate,
-        "nameOfCountry": resturantModel?.contrey!.name,
+        "nameOfCountry": resturantModel?.contrey?.name,
+        "opening_hours": resturantModel?.openingHours,
+        "closing_hours": resturantModel?.closingHours,
       });
       await apiService.post(endPoint: "restaurantupdate", body: formData);
 

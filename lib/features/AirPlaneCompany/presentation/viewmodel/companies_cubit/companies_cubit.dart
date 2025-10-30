@@ -22,7 +22,7 @@ class CompaniesCubit extends Cubit<CompaniesState> {
       bloccompaniesNames.clear();
       for (var company in companies) {
         bloccompanies.add(company);
-        bloccompaniesNames.add(company.name);
+        bloccompaniesNames.add(company.name!);
       }
     });
   }
@@ -32,7 +32,7 @@ class CompaniesCubit extends Cubit<CompaniesState> {
     try {
       List<AirPlaneCompanyModel> result = [];
       for (var company in bloccompanies) {
-        if (company.name.toLowerCase().contains(quary.toLowerCase())) {
+        if (company.name!.toLowerCase().contains(quary.toLowerCase())) {
           result.add(company);
         }
       }

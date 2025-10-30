@@ -15,6 +15,9 @@ class ResturantModel {
   String? closingHours;
   String? photo;
   int? countryId;
+  final String? x;
+  final String? y;
+
   ContryModel? contrey;
 
   ResturantModel({
@@ -33,6 +36,8 @@ class ResturantModel {
     this.photo,
     this.countryId,
     this.contrey,
+    this.x,
+    this.y,
   });
 
   factory ResturantModel.fromJson(Map<String, dynamic> json) {
@@ -54,6 +59,8 @@ class ResturantModel {
       contrey: json['contrey'] == null
           ? null
           : ContryModel.fromJson(json['contrey'] as Map<String, dynamic>),
+      x: json['x'].toString() as String?,
+      y: json['y'].toString() as String?,
     );
   }
 }

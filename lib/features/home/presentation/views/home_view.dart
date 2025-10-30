@@ -12,6 +12,7 @@ import 'package:tourism_app/features/Hotels/presentation/viewModel/EditHotelsCub
 import 'package:tourism_app/features/Hotels/presentation/viewModel/HotelsCubit/hotels_cubit.dart';
 import 'package:tourism_app/features/Resturants/data/repos/resturant_repo.dart';
 import 'package:tourism_app/features/Resturants/presentation/viewModel/ResturantsCubit/resturants_cubit.dart';
+import 'package:tourism_app/features/Trips/presentation/viewModels/books_cubit/books_cubit_cubit.dart';
 import 'package:tourism_app/features/Users/data/repos/payment_repo.dart';
 import 'package:tourism_app/features/Users/presentation/viewModel/cubit/edit_user_cubit.dart';
 import 'package:tourism_app/features/Users/presentation/viewModel/cubit/users_cubit.dart';

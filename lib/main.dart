@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tourism_app/core/blocObserve/customblocobserve.dart';
 import 'package:tourism_app/core/utils/go_route.dart';
 import 'package:tourism_app/core/utils/service_locator.dart';
+import 'package:tourism_app/features/Trips/data/repos/trips_repo.dart';
+import 'package:tourism_app/features/Trips/presentation/viewModels/books_cubit/books_cubit_cubit.dart';
 import 'package:tourism_app/features/home/data/repos/profile_repo.dart';
 import 'package:tourism_app/features/home/presentation/viewmodels/profilecubit/profile_cubit.dart';
 
@@ -20,8 +22,15 @@ class TourismApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProfileCubit(getIt.get<ProfileRepo>()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ProfileCubit(getIt.get<ProfileRepo>()),
+        ),
+        BlocProvider(
+          create: (context) => BooksCubitCubit(getIt.get<TripsRepo>()),
+        ),
+      ],
       child: MaterialApp.router(
         theme: ThemeData(scaffoldBackgroundColor: Colors.white),
         debugShowCheckedModeBanner: false,
