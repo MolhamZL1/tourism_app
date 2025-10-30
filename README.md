@@ -1,16 +1,12 @@
-# tourism_app
+﻿## صور
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![](views/country.jpg)
+![](views/homePage.jpg)
+![](views/hotel.jpg)
+![](views/loginView.jpg)
+![](views/plane.jpg)
+![](views/resturants.jpg)
+![](views/Screenshot 2024-08-17 071010.jpg)
+![](views/Screenshot 2024-08-17 071043.jpg)
+![](views/trips.jpg)
+![](views/users.jpg)
