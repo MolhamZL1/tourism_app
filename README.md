@@ -1,5 +1,3 @@
-﻿## صور
-
 ![](views/country.jpg)
 ![](views/homePage.jpg)
 ![](views/hotel.jpg)
